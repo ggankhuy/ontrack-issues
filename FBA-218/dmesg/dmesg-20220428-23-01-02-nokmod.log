@@ -1,0 +1,3 @@
+[598199.001223] amdgpu 0000:1a:00.0: amdgpu: amdgpu: finishing device.
+[598199.004548] [drm] free PSP TMR buffer
+[598199.180467] [drm] amdgpu: ttm finalized

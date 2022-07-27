@@ -1,0 +1,92 @@
+[598215.120900] AMD-Vi: AMD IOMMUv2 driver by Joerg Roedel <jroedel@suse.de>
+[598215.121303] AMD-Vi: AMD IOMMUv2 functionality not available on this system
+[598218.767848] [drm] amdgpu kernel modesetting enabled.
+[598218.768220] [drm] amdgpu version: 5.13.6
+[598218.768571] [drm] OS DRM version: 5.13.0
+[598218.769984] amdgpu: CRAT table not found
+[598218.770324] amdgpu: Virtual CRAT table created for CPU
+[598218.770682] amdgpu: Topology: Add CPU node
+[598218.785727] [drm] initializing kernel modesetting (ARCTURUS 0x1002:0x738C 0x1002:0x0C34 0x01).
+[598218.786071] amdgpu 0000:1a:00.0: amdgpu: Trusted Memory Zone (TMZ) feature not supported
+[598218.786438] [drm] register mmio base: 0xAAD00000
+[598218.786796] [drm] register mmio size: 524288
+[598218.787156] [drm] add ip block number 0 <soc15_common>
+[598218.787522] [drm] add ip block number 1 <gmc_v9_0>
+[598218.787882] [drm] add ip block number 2 <vega20_ih>
+[598218.788240] [drm] add ip block number 3 <psp>
+[598218.788598] [drm] add ip block number 4 <smu>
+[598218.788952] [drm] add ip block number 5 <gfx_v9_0>
+[598218.789308] [drm] add ip block number 6 <sdma_v4_0>
+[598218.789670] [drm] add ip block number 7 <vcn_v2_5>
+[598218.790029] [drm] add ip block number 8 <jpeg_v2_5>
+[598218.799381] amdgpu 0000:1a:00.0: amdgpu: Fetched VBIOS from ROM BAR
+[598218.799758] amdgpu: ATOM BIOS: 113-D3431401-100
+[598218.800166] [drm] VCN(0) decode is enabled in VM mode
+[598218.800548] [drm] VCN(1) decode is enabled in VM mode
+[598218.800919] [drm] VCN(0) encode is enabled in VM mode
+[598218.801289] [drm] VCN(1) encode is enabled in VM mode
+[598218.801661] [drm] JPEG(0) JPEG decode is enabled in VM mode
+[598218.802029] [drm] JPEG(1) JPEG decode is enabled in VM mode
+[598218.802426] amdgpu 0000:1a:00.0: amdgpu: MEM ECC is active.
+[598218.802800] amdgpu 0000:1a:00.0: amdgpu: SRAM ECC is active.
+[598218.803174] amdgpu 0000:1a:00.0: amdgpu: RAS INFO: ras initialized successfully, hardware ability[7fff] ras_mask[7fff]
+[598218.803564] [drm] vm size is 262144 GB, 4 levels, block size is 9-bit, fragment size is 9-bit
+[598218.803954] amdgpu 0000:1a:00.0: amdgpu: VRAM: 32752M 0x0000008000000000 - 0x00000087FEFFFFFF (32752M used)
+[598218.804342] amdgpu 0000:1a:00.0: amdgpu: GART: 512M 0x0000000000000000 - 0x000000001FFFFFFF
+[598218.804733] amdgpu 0000:1a:00.0: amdgpu: AGP: 267878400M 0x0000008800000000 - 0x0000FFFFFFFFFFFF
+[598218.805127] [drm] Detected VRAM RAM=32752M, BAR=32768M
+[598218.805517] [drm] RAM width 4096bits HBM
+[598218.806066] [drm] amdgpu: 32752M of VRAM memory ready
+[598218.806456] [drm] amdgpu: 192050M of GTT memory ready.
+[598218.806851] [drm] GART: num cpu pages 131072, num gpu pages 131072
+[598218.807361] [drm] PCIE GART of 512M enabled.
+[598218.807727] [drm] PTB located at 0x0000008000000000
+[598218.827949] amdgpu 0000:1a:00.0: amdgpu: PSP runtime database doesn't exist
+[598218.856699] [drm] Found VCN firmware Version ENC: 1.1 DEC: 1 VEP: 0 Revision: 21
+[598218.857385] amdgpu 0000:1a:00.0: amdgpu: Will use PSP to load VCN firmware
+[598218.888065] [drm] reserve 0x400000 from 0x87fec00000 for PSP TMR
+[598218.958030] amdgpu 0000:1a:00.0: amdgpu: HDCP: optional hdcp ta ucode is not available
+[598218.958541] amdgpu 0000:1a:00.0: amdgpu: DTM: optional dtm ta ucode is not available
+[598218.958864] amdgpu 0000:1a:00.0: amdgpu: RAP: optional rap ta ucode is not available
+[598218.959178] amdgpu 0000:1a:00.0: amdgpu: SECUREDISPLAY: securedisplay ta ucode is not available
+[598218.959574] amdgpu 0000:1a:00.0: amdgpu: use vbios provided pptable
+[598218.959913] amdgpu 0000:1a:00.0: amdgpu: smc_dpm_info table revision(format.content): 4.6
+[598218.960242] amdgpu 0000:1a:00.0: amdgpu: PMFW based fan control disabled
+[598218.961921] amdgpu 0000:1a:00.0: amdgpu: SMU is initialized successfully!
+[598218.962871] [drm] kiq ring mec 2 pipe 1 q 0
+[598218.975900] [drm] VCN decode and encode initialized successfully(under DPG Mode).
+[598218.976274] [drm] JPEG decode initialized successfully.
+[598219.010283] kfd kfd: amdgpu: Allocated 3969056 bytes on gart
+[598219.086196] memmap_init_zone_device initialised 8388608 pages in 62ms
+[598219.086539] amdgpu: HMM registered 32752MB device memory
+[598219.086890] amdgpu: Virtual CRAT table created for GPU
+[598219.087464] amdgpu: Topology: Add dGPU node [0x738c:0x1002]
+[598219.087812] kfd kfd: amdgpu: added device 1002:738c
+[598219.088200] amdgpu 0000:1a:00.0: amdgpu: SE 8, SH per SE 1, CU per SH 16, active_cu_number 120
+[598219.097231] amdgpu 0000:1a:00.0: amdgpu: ring comp_1.0.0 uses VM inv eng 0 on hub 0
+[598219.097635] amdgpu 0000:1a:00.0: amdgpu: ring comp_1.1.0 uses VM inv eng 1 on hub 0
+[598219.098031] amdgpu 0000:1a:00.0: amdgpu: ring comp_1.2.0 uses VM inv eng 4 on hub 0
+[598219.098424] amdgpu 0000:1a:00.0: amdgpu: ring comp_1.3.0 uses VM inv eng 5 on hub 0
+[598219.098815] amdgpu 0000:1a:00.0: amdgpu: ring comp_1.0.1 uses VM inv eng 6 on hub 0
+[598219.099194] amdgpu 0000:1a:00.0: amdgpu: ring comp_1.1.1 uses VM inv eng 7 on hub 0
+[598219.099571] amdgpu 0000:1a:00.0: amdgpu: ring comp_1.2.1 uses VM inv eng 8 on hub 0
+[598219.099944] amdgpu 0000:1a:00.0: amdgpu: ring comp_1.3.1 uses VM inv eng 9 on hub 0
+[598219.100317] amdgpu 0000:1a:00.0: amdgpu: ring kiq_2.1.0 uses VM inv eng 10 on hub 0
+[598219.100699] amdgpu 0000:1a:00.0: amdgpu: ring sdma0 uses VM inv eng 0 on hub 1
+[598219.101075] amdgpu 0000:1a:00.0: amdgpu: ring sdma1 uses VM inv eng 1 on hub 1
+[598219.101451] amdgpu 0000:1a:00.0: amdgpu: ring sdma2 uses VM inv eng 4 on hub 1
+[598219.101825] amdgpu 0000:1a:00.0: amdgpu: ring sdma3 uses VM inv eng 5 on hub 1
+[598219.102193] amdgpu 0000:1a:00.0: amdgpu: ring sdma4 uses VM inv eng 6 on hub 1
+[598219.102554] amdgpu 0000:1a:00.0: amdgpu: ring sdma5 uses VM inv eng 0 on hub 2
+[598219.102897] amdgpu 0000:1a:00.0: amdgpu: ring sdma6 uses VM inv eng 1 on hub 2
+[598219.103225] amdgpu 0000:1a:00.0: amdgpu: ring sdma7 uses VM inv eng 4 on hub 2
+[598219.103552] amdgpu 0000:1a:00.0: amdgpu: ring vcn_dec_0 uses VM inv eng 5 on hub 2
+[598219.103875] amdgpu 0000:1a:00.0: amdgpu: ring vcn_enc_0.0 uses VM inv eng 6 on hub 2
+[598219.104190] amdgpu 0000:1a:00.0: amdgpu: ring vcn_enc_0.1 uses VM inv eng 7 on hub 2
+[598219.104505] amdgpu 0000:1a:00.0: amdgpu: ring vcn_dec_1 uses VM inv eng 8 on hub 2
+[598219.104816] amdgpu 0000:1a:00.0: amdgpu: ring vcn_enc_1.0 uses VM inv eng 9 on hub 2
+[598219.105128] amdgpu 0000:1a:00.0: amdgpu: ring vcn_enc_1.1 uses VM inv eng 10 on hub 2
+[598219.105436] amdgpu 0000:1a:00.0: amdgpu: ring jpeg_dec_0 uses VM inv eng 11 on hub 2
+[598219.105747] amdgpu 0000:1a:00.0: amdgpu: ring jpeg_dec_1 uses VM inv eng 12 on hub 2
+[598219.138284] amdgpu: Detected AMDGPU 6 Perf Events.
+[598219.147222] [drm] Initialized amdgpu 3.44.0 20150101 for 0000:1a:00.0 on minor 1
