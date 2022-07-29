@@ -1,3 +1,6 @@
+# script to gather summary log from perftest log.
+# run from same directory as the one containing perftest.log.
+
 DATE=`date +%Y%m%d-%H-%M-%S`
 LOG_SUMMARY=./log_summary-$DATE
 LOG_SUMMARY_FILE=$LOG_SUMMARY/summary.log
