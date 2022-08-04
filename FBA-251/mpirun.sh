@@ -1,4 +1,4 @@
-PROCESSESS=512
+PROCESSESS=384
 MPIRUN=`sudo find /usr/ -name mpirun`
 # MinSi's, simple call to hipGetDeviceCont
 
@@ -7,13 +7,13 @@ CONFIG_USE_MPIRUN=0
 LOG_DIR=./log
 sudo mkdir -p $LOG_DIR
 
-# hip-examples, hello world, multitide of HIP API calls.
-APP_NAME=HelloWorld
-APP_PATH=/home/AMD/gg/ROCm-5.2/HIP-Examples/HIP-Examples-Applications/$APP_NAME/a.out
-
 #FBA-251
 APP_NAME=hip_get_device_count_repro
 APP_PATH=./$APP_NAME.out
+
+# hip-examples, hello world, multitide of HIP API calls.
+APP_NAME=HelloWorld
+APP_PATH=/home/AMD/gg/ROCm-5.2/HIP-Examples/HIP-Examples-Applications/$APP_NAME/$APP_NAME
 
 if [[ -z $MPIRUN ]] ; then
     echo "Unable to find mpirun. Will try installing openmpi-devel..."
