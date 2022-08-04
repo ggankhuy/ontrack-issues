@@ -1,10 +1,19 @@
 PROCESSESS=512
 MPIRUN=`sudo find /usr/ -name mpirun`
 # MinSi's, simple call to hipGetDeviceCont
+
 APP_PATH=./a.out
+CONFIG_USE_MPIRUN=0
+LOG_DIR=./log
+sudo mkdir -p $LOG_DIR
 
 # hip-examples, hello world, multitide of HIP API calls.
-APP_PATH=/home/AMD/gg/ROCm-5.2/HIP-Examples/HIP-Examples-Applications/HelloWorld/a.out
+APP_NAME=HelloWorld
+APP_PATH=/home/AMD/gg/ROCm-5.2/HIP-Examples/HIP-Examples-Applications/$APP_NAME/a.out
+
+#FBA-251
+APP_NAME=hip_get_device_count_repro
+APP_PATH=./$APP_NAME.out
 
 if [[ -z $MPIRUN ]] ; then
     echo "Unable to find mpirun. Will try installing openmpi-devel..."
@@ -18,7 +27,16 @@ fi
 
 t1=$SECONDS
 
-$MPIRUN --allow-run-as-root -np $PROCESSESS -N $PROCESSESS --oversubscribe $APP_PATH
+if [[ $CONFIG_USE_MPIRUN -eq 1 ]] ; then
+    echo "Using mpirun..."
+    $MPIRUN --allow-run-as-root -np $PROCESSESS -N $PROCESSESS --oversubscribe $APP_PATH
+else 
+    echo "Using for loop..."
+    for (( n=0; n < $PROCESSESS; n++ )) ; do
+        echo "i, log file: $n, $APP_NAME.$n.log"
+        $APP_PATH 2>&1 | sudo tee $LOG_DIR/$APP_NAME.$n.log &
+    done
+fi
 
 t2=$SECONDS 
 echo "total time for $PROCESSESS processes: "
