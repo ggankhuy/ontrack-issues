@@ -53,7 +53,8 @@ LOGFILE_LSPCI=$DATE-lspci.log
 LOGFILE_ROCM_SMI=$DATE-rocm-smi.log
 LOGFILE_ROCMINFO=$DATE-rocminfo.log
 LOGFILE_DMIDECODE=$DATE-dmidecode.log
-LOGFILE_AMDGPU_PARAMS=$DATE-amdgpu-params.log
+LOGFILE_AMDGPU=$DATE-amdgpu-params.log
+LOGFILE_DKMS=$DATE-dkms.log
 CONFIG_ENABLE_HISTORY=1
 LOGFILE_HISTORY=$DATE-history.log
 LOGFILE_BOOTINFO=$DATE-bootinfo.log
@@ -163,11 +164,11 @@ echo "===== Section: lsmod loaded module     ==============="
 
 # amdgpu modinfo
 echo "===== Section: amdgpu modinfo          ==============="
-/sbin/modinfo amdgpu
+modinfo amdgpu | tee -a $LOG_FOLDER/$LOGFILE_AMDGPU
 
 # dkms status
 echo "===== Section: dkms status             ==============="
-/usr/sbin/dkms status
+dkms status | tee -a $LOG_FOLDER/$LOGFILE_DKMS
 
 # amdgpu udev rules
 echo "===== Section: amdgpu udev rule        ==============="
@@ -325,7 +326,7 @@ for i in $kmod_params ; do
     filename=`find /sys -name $i`
     if [[ -f $filename ]] ; then
         value=`cat $filename`
-        echo $filename: $value1: $value | tee -a $LOG_FOLDER/$LOGFILE_AMDGPU_PARAMS 
+        echo $filename: $value1: $value | tee -a $LOG_FOLDER/$LOGFILE_AMDGPU 
     else
         echo "bypassing $i /not a file/"
     fi
