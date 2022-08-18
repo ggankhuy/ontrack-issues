@@ -27,6 +27,8 @@ else
     RPM_FOLDER=/home/nonroot/gg/rpm/rock-kernel/config.amd
 fi
 
+mkdir $RPM_FOLDER/1/ -p
+mkdir $RPM_FOLDER/2/ -p
 rm -rf $RPM_FOLDER/1/*
 rm -rf $RPM_FOLDER/2/*
 
