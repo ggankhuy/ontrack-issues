@@ -100,8 +100,9 @@ pip3 install --upgrade pip
 pip3 install --upgrade distlib
 
 export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
-python tools/amd_build/build_amd.py 2>&1  | tee build-pytorch.log
-PYTORCH_ROCM_ARCH=gfx908  .jenkins/pytorch/build.sh
+python3 tools/amd_build/build_amd.py 2>&1  | tee build-pytorch.log
+#PYTORCH_ROCM_ARCH=gfx908  .jenkins/pytorch/build.sh
+USE_ROCM=1 USE_LMDB=1 USE_OPENCV=1 MAX_JOBS=$(nproc) python3 -v setup.py install --user
 
 #python setup.py install
 
