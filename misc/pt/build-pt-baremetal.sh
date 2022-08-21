@@ -40,7 +40,7 @@ function install_python() {
 
 # Upgrading python.
 echo "Upgrading python..."
-#install_python 
+install_python 
 
 # make sure following rocm components are installed.
 
