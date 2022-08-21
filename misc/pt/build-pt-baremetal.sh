@@ -40,11 +40,11 @@ function install_python() {
 
 # Upgrading python.
 echo "Upgrading python..."
-install_python 
+#install_python 
 
 # make sure following rocm components are installed.
 
-install rocm-dev rocm-utils rocm-libs rccl -y
+yum install rocm-dev rocm-utils rocm-libs rccl -y
 
 # building pytorch
 echo "Building pytorch..."
@@ -59,6 +59,6 @@ cd pytorch
 
 python3 -m pip install -r requirements.txt
 python3 tools/amd_build/build_amd.py
-mkdir build ; cd build ; cmake .. ; make -j 64
+mkdir build ; cd build ; cmake .. ; make -j 64 ; cd ..
 USE_ROCM=1 USE_LMDB=1 USE_OPENCV=1 MAX_JOBS=$(nproc) python3 setup.py install –user
 
