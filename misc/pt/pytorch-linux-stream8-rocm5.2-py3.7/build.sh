@@ -281,6 +281,7 @@ case "$image" in
     ANACONDA_PYTHON_VERSION=3.7
     CMAKE_VERSION=3.16.9  # Required for precompiled header support
     GCC_VERSION=7
+    DEVTOOLSET=8
     PROTOBUF=yes
     DB=yes
     VISION=yes
