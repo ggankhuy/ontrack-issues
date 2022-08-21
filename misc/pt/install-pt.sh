@@ -36,4 +36,9 @@ do
     counter=$((counter+1))
 done
 
-pip3 install torch torchvision --extra-index-url https://download.pytorch.org/whl/rocm4.5.2 2>&1  | tee $LOG_FOLDER/torch.torchvision.log
+#For 4.5.2
+#pip3 install torch torchvision --extra-index-url https://download.pytorch.org/whl/rocm4.5.2 2>&1  | tee $LOG_FOLDER/torch.torchvision.log
+
+#For 5.1.1
+pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/rocm5.1.1
+
