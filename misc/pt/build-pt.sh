@@ -75,15 +75,18 @@ function install_python() {
     rm -rf /usr/bin/python
     echo ln -s $PATH_PYTHON_U /usr/bin/python
     ln -s $PATH_PYTHON_U /usr/bin/python
+    rm -rf /usr/bin/python3
+    ln -s /usr/bin/python /usr/bin/python3
 }
 
 # install conda.
 echo "Installing conda..."
-install_conda
+#install_conda
 
 # Upgrading python.
 echo "Upgrading python..."
 install_python 
+exit 0
 
 $EXEC_PATH_CONDA install -y astunparse numpy ninja pyyaml mkl mkl-include setuptools cmake cffi typing_extensions future six requests dataclasses
 cd ..
