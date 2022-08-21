@@ -59,8 +59,8 @@ cd pytorch
 
 python3 -m pip install -r requirements.txt
 python3 tools/amd_build/build_amd.py
-mkdir build ; cd build ; cmake .. ; make -j 64 ; cd ..
+cmake . ; make -j 64
 USE_ROCM=1 USE_LMDB=1 USE_OPENCV=1 MAX_JOBS=$(nproc) python3 setup.py install --user
 
-python3 -c "import pytorch ; cuda = torch.device('cuda')"
+python3 -c "import torch ; cuda = torch.device('cuda')"
 
