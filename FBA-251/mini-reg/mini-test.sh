@@ -39,7 +39,6 @@ else
     #kill -p $DMESG_PID
 fi
 
-exit 0
 if [[ -z $RVS ]] || [[ -z $RVS_CONFIG ]]; then
     echo "Unable to find either rvs or rvs config. RVS: $RVS, RVS_CONFIG: $RVS_CONFIG"
 else
