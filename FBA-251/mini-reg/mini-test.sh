@@ -53,7 +53,6 @@ else
     #kill -p $DMESG_PID
 fi
 
-exit 0
 LOG_FOLDER_KFDTEST=$LOG_FOLDER/kfdtest/
 mkdir -p $LOG_FOLDER_KFDTEST
 
