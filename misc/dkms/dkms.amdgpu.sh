@@ -17,6 +17,7 @@ LOG_FOLDER=./log/
 mkdir -p $LOG_FOLDER
 LOG_FILE_BASE=$LOG_FOLDER/dkms.amkdgpu
 
-for action in remove add build install 
+#for action in remove add build install 
+for action in remove add build
     do dkms $action $VERSION  -k $KERNEL_VERSION/x86_64 2>&1 | tee $LOG_FILE_BASE.$action.log
 done

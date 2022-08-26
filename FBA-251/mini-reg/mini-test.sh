@@ -1,0 +1,74 @@
+IPMIHOST=10.6.188.58
+IPMIUSER=ADMIN
+IPMIPW=ADMIN
+
+if [[ $1 -ne "" ]] ; then
+    LOG_SUFFIX=$1
+fi
+DATE=`date +%Y%m%d-%H-%M-%S`
+if [[ $LOG_SUFFIX ]] ;then
+    LOG_FOLDER=log/$DATE-$LOG_SUFFIX
+else
+    LOG_FOLDER=log/$DATE
+fi
+
+RVS=`find /opt -name rvs`
+RVS_CONFIG=`find /opt -name gst_single.conf`
+LOG_FOLDER_RVS=$LOG_FOLDER/rvs/
+mkdir -p $LOG_FOLDER_RVS
+
+if [[ -z $RVS ]] || [[ -z $RVS_CONFIG ]]; then
+    echo "Unable to find either rvs or rvs config. RVS: $RVS, RVS_CONFIG: $RVS_CONFIG"
+else
+    echo "Running RVS..."
+    dmesg --clear
+    ipmitool -H $IPMIHOST -I lanplus -U $IPMIUSER -P $IPMIPW sel clear
+    sleep 5
+    dmesg -wH > $LOG_FOLDER_RVS/rvs.dmesg.log &
+    DMESG_PID=$!
+    mkdir $LOG_FOLDER_RVS/sel -p
+    $RVS -c $RVS_CONFIG | tee $LOG_FOLDER_RVS/rvs.log
+    ipmitool -H $IPMIHOST -I lanplus -U $IPMIUSER -P $IPMIPW sel elist > $LOG_FOLDER_RVS/rvs.sel.log
+    kill -p $DMESG_PID
+fi
+
+LOG_FOLDER_KFDTEST=$LOG_FOLDER/kfdtest/
+mkdir -p $LOG_FOLDER_KFDTEST
+
+RUN_KFDTEST_SH=`which run_kfdtest.sh`
+
+if [[ -z $RUN_KFDTEST_SH ]] ; then
+    echo "Unable to find run_kfdtest.sh"
+else
+    echo "Running kfdtest..."
+    dmesg --clear
+    ipmitool -H $IPMIHOST -I lanplus -U $IPMIUSER -P $IPMIPW sel clear
+    sleep 5
+    dmesg -wH > $LOG_FOLDER_KFDTEST/run_kfdtest.dmesg.log &
+    DMESG_PID=$!
+    mkdir $LOG_FOLDER_KFDTEST/sel -p
+    $RUN_KFDTEST_SH | tee $LOG_FOLDER_KFDTEST/run_kfdtest.log
+    ipmitool -H $IPMIHOST -I lanplus -U $IPMIUSER -P $IPMIPW sel elist > $LOG_FOLDER_KFDTEST/run_kfdtest.sel.log
+    kill -p $DMESG_PID
+fi
+
+TB=`find /opt -name TransferBench`
+TB_CONFIG=./TB.8.bidi.GPU.cfg
+LOG_FOLDER_TB=$LOG_FOLDER/rvs/
+mkdir -p $LOG_FOLDER_TB
+
+if [[ -z $TB ]] || [[ -z $TB_CONFIG ]]; then
+    echo "Unable to find either rvs or rvs config. TB: $TB, TB_CONFIG: $TB_CONFIG"
+else
+    echo "Running TB..."
+    dmesg --clear
+    ipmitool -H $IPMIHOST -I lanplus -U $IPMIUSER -P $IPMIPW sel clear
+    sleep 5
+    dmesg -wH > $LOG_FOLDER_TB/tb.dmesg.log &
+    DMESG_PID=$!
+    mkdir $LOG_FOLDER_TB/sel -p
+    $TB $TB_CONFIG 8G | tee $LOG_FOLDER_TB/tb.log
+    ipmitool -H $IPMIHOST -I lanplus -U $IPMIUSER -P $IPMIPW sel elist > $LOG_FOLDER_TB/tb.sel.log
+    kill -p $DMESG_PID
+fi
+

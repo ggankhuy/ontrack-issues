@@ -9,19 +9,19 @@ APP_NAME=hip_get_device_count_repro
 APP_PATH=./$APP_NAME.out
 
 # hip-examples, hello world, multitide of HIP API calls.
-APP_NAME=HelloWorld
-APP_PATH=/home/AMD/gg/ROCm-5.2/HIP-Examples/HIP-Examples-Applications/$APP_NAME/$APP_NAME
+#APP_NAME=HelloWorld
+#APP_PATH=/home/nonroot/gg/ROCm-5.2/HIP-Examples/HIP-Examples-Applications/$APP_NAME/$APP_NAME
 
 # hip-examples, vectorAdd, multitude of HIP API calls.
-APP_NAME=vectoradd_hip
-APP_PATH=/home/AMD/gg/ROCm-5.2/HIP-Examples/vectorAdd/$APP_NAME.exe
+#APP_NAME=vectoradd_hip
+#APP_PATH=/home/nonroot/gg/ROCm-5.2/HIP-Examples/vectorAdd/$APP_NAME.exe
 
 dmesg --clear
 
 DATE=`date +%Y%m%d-%H-%M-%S`
 LOG_DIR_ROOT=./log/$DATE/
 
-for i in {1..2} ; do
+for i in {1..1} ; do
     LOG_DIR=./log/$DATE/$i
     sudo mkdir -p $LOG_DIR
     echo "===="  | tee -a $LOG_DIR_ROOT/$DBG_LOG
