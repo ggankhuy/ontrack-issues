@@ -35,7 +35,7 @@ rm -rf $RPM_FOLDER/2/*
 if [[ $CONFIG_BUILD_BINRPM -eq 1 ]] ; then
     echo "Will build binrpm ..."
     rm -rf /root/rpmbuild/ ; 
-    make clean ; make -j`nproc` binrpm-pkg
+    make clean ; yes "" | make -j`nproc` binrpm-pkg
     mv /root/rpmbuild/RPMS/x86_64/kernel-*  $RPM_FOLDER/1
     ls -l $RPM_FOLDER/1
 else
