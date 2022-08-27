@@ -13,6 +13,10 @@ mkdir $LOG_FOLDER -p
 
 while IFS= read -r line; do
     echo $line
-    $KFDTEST --gtest_filter=$line 2>&1 | tee $LOG_FOLDER/$line.log
+    dmesg --clear
+    mkdir $LOG_FOLDER/$line -p
+    $KFDTEST --gtest_filter=$line 2>&1 | tee $LOG_FOLDER/$line/$line.log
+    dmesg | tee $LOG_FOLDER/$line/$line.dmesg.log
 done < $KFDTEST_LIST
+
 
