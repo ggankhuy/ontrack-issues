@@ -9,7 +9,7 @@ fi
 
 DATE=`date +%Y%m%d-%H-%M-%S`
 LOG_FOLDER=log/$DATE/
-mkdir $LOG_FOLDER -P
+mkdir $LOG_FOLDER -p
 
 while IFS= read -r line; do
     echo $line
