@@ -18,11 +18,21 @@ APP_PATH=./$APP_NAME.out
 
 dmesg --clear
 
+if [[ ! -z $1 ]] ; then
+    LOG_SUFFIX=$1
+fi
 DATE=`date +%Y%m%d-%H-%M-%S`
-LOG_DIR_ROOT=./log/$DATE/
+if [[ $LOG_SUFFIX ]] ;then
+    LOG_DIR_ROOT=log/$DATE-$LOG_SUFFIX
+else
+    LOG_DIR_ROOT=log/$DATE
+fi
+echo LOG_DIR_ROOT: $LOG_DIR_ROOT
+sleep 5
+DATE=`date +%Y%m%d-%H-%M-%S`
 
 for i in {1..1} ; do
-    LOG_DIR=./log/$DATE/$i
+    LOG_DIR=$LOG_DIR_ROOT/$i
     sudo mkdir -p $LOG_DIR
     echo "===="  | tee -a $LOG_DIR_ROOT/$DBG_LOG
     if [[ -z $MPIRUN ]] ; then
