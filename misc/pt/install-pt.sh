@@ -40,5 +40,8 @@ done
 #pip3 install torch torchvision --extra-index-url https://download.pytorch.org/whl/rocm4.5.2 2>&1  | tee $LOG_FOLDER/torch.torchvision.log
 
 #For 5.1.1
-pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/rocm5.1.1
+#pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/rocm5.1.1
+
+# For 5.2
+pip3 install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/rocm5.2/
 
