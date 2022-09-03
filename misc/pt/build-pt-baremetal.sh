@@ -44,7 +44,7 @@ install_python
 
 # make sure following rocm components are installed.
 
-yum install rocm-dev rocm-utils rocm-libs rccl -y
+yum install -y rocblas-devel rocrand-devel hipblas-devel rocfft-devel miopen-hip-devel hipfft-devel hipsparse-devel rocprim-devel hipcub-devel rocthrust-devel rccl-devel 
 
 # building pytorch
 echo "Building pytorch..."
@@ -59,8 +59,7 @@ cd pytorch
 
 python3 -m pip install -r requirements.txt
 python3 tools/amd_build/build_amd.py
-cmake . ; make -j 64
+mkdir build ; cd build ; cmake .. ; make -j 64
 USE_ROCM=1 USE_LMDB=1 USE_OPENCV=1 MAX_JOBS=$(nproc) python3 setup.py install --user
-
 python3 -c "import torch ; cuda = torch.device('cuda')"
 
