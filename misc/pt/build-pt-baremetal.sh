@@ -55,12 +55,14 @@ pip3 install --upgrade pip
 pip3 install --upgrade distlib
 
 cd pytorch
-git checkout v1.12.1
+#git checkout v1.12.1
 
 python3 -m pip install -r requirements.txt
 python3 tools/amd_build/build_amd.py
 mkdir build ; cd build ; cmake .. ; make -j 64 
 cd ..
 USE_ROCM=1 USE_LMDB=1 USE_OPENCV=1 MAX_JOBS=$(nproc) python3 setup.py install --user
+cd ..
+pwd
 python3 -c "import torch ; cuda = torch.device('cuda')"
 
