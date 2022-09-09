@@ -1,7 +1,7 @@
 CONFIG_REMOVE_EXISTING_KERNELS=0
 CONFIG_BUILD_BINRPM=0
     
-KERNEL_VERSION=5.11
+KERNEL_VERSION=5.16
 
 if [[ $CONFIG_REMOVE_EXISTING_KERNELS -eq 1 ]] ; then
     echo "Will remove all existing $KERNEL_VERSION kernels!.. ctrl + c to discontinue..."
