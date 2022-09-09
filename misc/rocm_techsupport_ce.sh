@@ -55,6 +55,7 @@ LOGFILE_ROCMINFO=$DATE-rocminfo.log
 LOGFILE_DMIDECODE=$DATE-dmidecode.log
 LOGFILE_AMDGPU=$DATE-amdgpu-params.log
 LOGFILE_DKMS=$DATE-dkms.log
+LOGFILE_ROCM=$DATE-rocm.log
 CONFIG_ENABLE_HISTORY=1
 LOGFILE_HISTORY=$DATE-history.log
 LOGFILE_BOOTINFO=$DATE-bootinfo.log
@@ -336,5 +337,7 @@ done
 echo "Creating tar..."
 tar -cvf $DATE.tar $LOG_FOLDER/*
 
-echo "Watchdog info: /proc/sys/kernel/watchdog_thres: " | sudo tee -a $LOGFILE_CPU
-cat /proc/sys/kernel/watchdog_thresh | sudo tee -a $LOGFILE_CPU
+echo "Watchdog info: /proc/sys/kernel/watchdog_thres: " | sudo tee -a $LOG_FOLDER/$LOGFILE_CPU
+cat /proc/sys/kernel/watchdog_thresh | sudo tee -a $LOG_FOLDER/$LOGFILE_CPU
+
+yum list installed | grep -i rocm | sudo tee -a $LOG_FOLDER/$LOGFILE_ROCM
