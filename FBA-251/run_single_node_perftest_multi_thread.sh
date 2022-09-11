@@ -3,6 +3,8 @@
 THREADS=$1
 MLX_INDEX=$2
 HOSTNAME=$3
+LOG_FOLDER=./log/
+sudo mkdir $LOG_FOLDER
 
 if [ "$#" != "3" ]; then
     echo
@@ -48,10 +50,10 @@ do
 		#echo $socket mlx5_$mlx rocm$ROCM
 		if [[ $ROCM < 4 ]]; then
 			#taskset -c 0-63,128-191 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000 -x 3 --use_rocm=$ROCM 2>&1 > /home/AMD/test_01_02_with_rocm_0715_nic_set_100/server_ctr_ubbsmc02_mlx5_$mlx-client_port$socket.txt &
-			taskset -c 0-63,128-191 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000 -x 3 --use_rocm=$ROCM 2>&1 > /dev/null &
+			taskset -c 0-63,128-191 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000 -x 3 --use_rocm=$ROCM 2>&1 | tee $LOG_FOLDER/server-$HOSTNAME.$socket.mlx5_$mlx.rocm-$ROCM.log &
 		else
 			#taskset -c 64-127,192-254 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000 -x 3 --use_rocm=$ROCM 2>&1 > /home/AMD/test_01_02_with_rocm_0715_nic_set_100/server_ctr_ubbsmc02_mlx5_$mlx-client_port$socket.txt &
-			taskset -c 64-127,192-254 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000 -x 3 --use_rocm=$ROCM 2>&1 > /dev/null &
+			taskset -c 64-127,192-254 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000 -x 3 --use_rocm=$ROCM 2>&1 | tee $LOG_FOLDER/server-$HOSTNAME.$socket.mlx5_$mlx.rocm-$ROCM.log &
 		fi
 		let CURRENT_THREAD=CURRENT_THREAD+1
 	done
@@ -71,10 +73,10 @@ do
 		#echo $socket mlx5_$mlx rocm$ROCM
 		if [[ $ROCM < 4 ]]; then
 			#taskset -c 0-63,128-191 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000  -x 3 -F $HOSTNAME -D 100 --use_rocm=$ROCM &> /home/AMD/test_01_02_with_rocm_0715_nic_set_100/client_ctr_ubbsmc02_mlx5_$mlx-server_port$socket.txt &
-			taskset -c 0-63,128-191 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000  -x 3 -F $HOSTNAME -D 100 --use_rocm=$ROCM &> /dev/null &
+			taskset -c 0-63,128-191 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000  -x 3 -F $HOSTNAME -D 100 --use_rocm=$ROCM 2&>1  | tee $LOG_FOLDER/client-$HOSTNAME.$socket.mlx5_$mlx.rocm-$ROCM.log
 		else
 			#taskset -c 64-127,192-254 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000 -x 3 -F $HOSTNAME -D 100 --use_rocm=$ROCM &> /home/AMD/test_01_02_with_rocm_0715_nic_set_100/client_ctr_ubbsmc02_mlx5_$mlx-server_port$socket.txt &
-			taskset -c 64-127,192-254 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000 -x 3 -F $HOSTNAME -D 100 --use_rocm=$ROCM &> /dev/null &
+			taskset -c 64-127,192-254 /home/AMD/perftest/ib_write_bw -S 0 -p $socket --report_gbits -d mlx5_$mlx -m 4096 -n 10000 -x 3 -F $HOSTNAME -D 100 --use_rocm=$ROCM 2&>1 | tee $LOG_FOLDER/client-$HOSTNAME.$socket.mlx5_$mlx.rocm-$ROCM.log
 		fi
 	done
 	let CURRENT_THREAD=CURRENT_THREAD+1
