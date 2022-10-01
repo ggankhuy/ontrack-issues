@@ -1,5 +1,5 @@
 # run kfd test individually and gather logs separately.
-KFDTEST_LIST=kfdtest.list.mi250.rocm52
+KFDTEST_LIST=./kfdtest.list.mi250
 KFDTEST=/usr/local/bin/kfdtest
 
 if [[ -z $KFDTEST ]] ; then
