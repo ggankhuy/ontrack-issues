@@ -1,4 +1,4 @@
-DATE=`date +%Y%m%d-%H-%M-%S`
+ATE=`date +%Y%m%d-%H-%M-%S`
 LOG_FOLDER=log/$DATE
 mkdir -p $LOG_FOLDER
 
@@ -22,16 +22,27 @@ counter=0
 for i in ${NODE_IPS[@]} ; do
     echo "--------------------------------------------------------------------"
     echo "NODE_IPS/USER/PWS: $i, ${NODE_USERS[$counter]}, ${NODE_PWS[$counter]}"
-    echo sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo cat /opt/rocm-*/.info/version"    
-    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo cat /opt/rocm-*/.info/version"    
+
+#   get rocm version.
+
+#    echo sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo cat /opt/rocm-*/.info/version"    
+
+#   get rccl version. 
+
+#    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo cat /opt/rocm-*/.info/version"    
 #    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "tree -f /opt | grep librccl -i"    
 
-    mkdir -p /log/$i
-    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "mkdir -p /log/SMCA-21/"    
-    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "pushd /root/gg/git/rccl-tests/build/; NCCL_DEBUG=INFO LD_LIBRARY_PATH=/home/AMD/rccl/build/:/opt/rocm/lib NCCL_IB_PCI_RELAXED_ORDERING=1 NCCL_NET_GDR_LEVEL=3 NCCL_IB_HCA=mlx5_0:1,mlx5_2:1,mlx5_4:1,mlx5_6:1,mlx5_8:1,mlx5_10:1,mlx5_12:1,mlx5_2:14 sudo ./all_reduce_perf -b 8 -e 16G -f 2 -g 8 -c 0 2>&1 | tee /log/SMCA-21/all_reduce_perf.log ; dmesg | sudo tee /log/SMCA-21/all_reduce_perf.dmesg.log"    
-    sshpass -p amd1234 scp -C -v -r -o StrictHostKeyChecking=no root@$i:/log/SMCA-21 /log/$i/
+#   run rccl.
 
+#    mkdir -p /log/$i
+#    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "mkdir -p /log/SMCA-21/"    
+#    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "pushd /root/gg/git/rccl-tests/build/; NCCL_DEBUG=INFO LD_LIBRARY_PATH=/home/AMD/rccl/build/:/opt/rocm/lib NCCL_IB_PCI_RELAXED_ORDERING=1 NCCL_NET_GDR_LEVEL=3 NCCL_IB_HCA=mlx5_0:1,mlx5_2:1,mlx5_4:1,mlx5_6:1,mlx5_8:1,mlx5_10:1,mlx5_12:1,mlx5_2:14 sudo ./all_reduce_perf -b 8 -e 16G -f 2 -g 8 -c 0 2>&1 | tee /log/SMCA-21/all_reduce_perf.log ; dmesg | sudo tee /log/SMCA-21/all_reduce_perf.dmesg.log"    
+#    sshpass -p amd1234 scp -C -v -r -o StrictHostKeyChecking=no root@$i:/log/SMCA-21 /log/$i/
+
+#   copy files to each node.
+
+    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "mkdir ~/transit"
+    sshpass -p ${NODE_PWS[$counter]} scp -C -r -o StrictHostKeyChecking=no -o ConnectTimeout=10 /home/master/transit/KT.SMCA-21/ ${NODE_USERS[$counter]}@$i:~/transit/
     counter=$((counter+1))
-    exit 0
 done
 
