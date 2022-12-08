@@ -1,6 +1,5 @@
 DATE=`date +%Y%m%d-%H-%M-%S`
 LOG_FOLDER=log/$DATE
-mkdir -p $LOG_FOLDER
 
 NODE_IPS=(\
     10.7.53.18 10.7.54.186 10.7.53.77 10.7.53.76 \
@@ -17,6 +16,11 @@ NODE_PWS=(\
     "AMD123!" "AMD123!" "AMD123!" "AMD123!"\
     "AMD123!" "AMD123!" "AMD123!" "AMD123!"\
     "AMD123!" "amd123!" "AMD123!" "AMD123!")
+BYPASS_FLAGS=(\
+    1 0 1 1\
+    0 0 1 0\
+    0 0 0 0\
+    0 0 1 1)
 
 #   function definitions.
 
@@ -31,6 +35,7 @@ function reboot1() {
 }
 
 function disacs1() {
+    mkdir -p $LOG_FOLDER
     RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
     RET_HOSTNAME=`echo $RET_HOSTNAME | cut -d '.' -f1 | cut -d '-' -f2`
     echo $RET_HOSTNAME: $RET_HOSTNAME
@@ -38,17 +43,28 @@ function disacs1() {
 }
 
 function runtest1() {
-    RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
-    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo nohup ./run_single_node_perftest_multi_thread.sh --threads=256 --nicport=2 --hostname=$RET_HOSTNAME --duration=300 &" 2>&1 | tee $LOG_FOLDER/perftest.run.$RET_HOSTNAME.$i.log &
+
+    if [[ ${BYPASS_FLAGS[$counter]} -eq 0 ]] ; then 
+        echo "Bypassing $i..." ; 
+    else
+        mkdir -p $LOG_FOLDER
+        RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
+        sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo nohup ./run_single_node_perftest_multi_thread.sh --threads=256 --nicport=2 --hostname=$RET_HOSTNAME --duration=300 &" 2>&1 | tee $LOG_FOLDER/perftest.run.$RET_HOSTNAME.$i.log &
+    fi
 }
 #   process cmdline parameteres
 
 function stat1() {
+    mkdir -p $LOG_FOLDER
     RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
     sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "pgrep ib_write | wc -l ; netstat -in ; dmesg" | tee $LOG_FOLDER/perftest.stat.all.$DATE.$RET_HOSTNAME.$i.log &
 }
 function processes1() {
     sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "pgrep ib_write | wc -l"
+}
+
+function os() {
+    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "cat /etc/os-release; uname -r" | tee log/os.kernel.$RET_HOSTNAME.$i.log
 }
 
 FNC_NAME=""
@@ -83,12 +99,20 @@ do
         echo "Get status."
         FNC_NAME="processes1"
     fi
+
+    if [[ $var == "--oskernel" ]]  ; then
+        echo "Get status."
+        FNC_NAME="os"
+    fi
 done
 
 counter=0
 for i in ${NODE_IPS[@]} ; do
     echo "--------------------------------------------------------------------"
     echo "NODE_IPS/USER/PWS: $i, ${NODE_USERS[$counter]}, ${NODE_PWS[$counter]}"
+    RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
+
+    if [[ -z $RET_HOSTNAME ]] ; then RET_HOSTNAME="NO-ACCESS" ; fi
     $FNC_NAME
     counter=$((counter+1))
 done
