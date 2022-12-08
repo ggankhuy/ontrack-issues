@@ -34,7 +34,7 @@ for i in ${NODE_IPS[@]} ; do
 
 #   check No. of threads running.
     sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "ps -ax | grep ib_write | wc -l"
-    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "dmesg"
+#   sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "dmesg"
     counter=$((counter+1))
 done
 

@@ -82,24 +82,24 @@ for i in ${NODE_IPS[@]} ; do
 
 #   run disacs.
 
-    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo chmod 755 ~/KT.SMCA-21/dis_acs.sh ; sudo ~/KT.SMCA-21/dis_acs.sh"
-    RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
-    RET_HOSTNAME=`echo $RET_HOSTNAME | cut -d '.' -f1 | cut -d '-' -f2`
-    echo $RET_HOSTNAME: $RET_HOSTNAME
-    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo ~/KT.SMCA-21//netconfig/ctr-ubbsmc-net-scripts.tar/ctr-ubbsmc-net-scripts/roce_iprouting.$RET_HOSTNAME.sh"
+    #sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo chmod 755 ~/KT.SMCA-21/dis_acs.sh ; sudo ~/KT.SMCA-21/dis_acs.sh" | tee log/dis_acs.$i.log
+    #RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
+    #RET_HOSTNAME=`echo $RET_HOSTNAME | cut -d '.' -f1 | cut -d '-' -f2`
+    #echo $RET_HOSTNAME: $RET_HOSTNAME
+    #sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo ~/KT.SMCA-21//netconfig/ctr-ubbsmc-net-scripts.tar/ctr-ubbsmc-net-scripts/roce_iprouting.$RET_HOSTNAME.sh" | tee log/netconfig.$i.log
 
-#   run netconfig script.
 #   run recreate script.
 
-#   sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo nohup ./recreate_test.sh &"
+#   sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo  ./recreate_test.sh"
+#   sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo nohup ./run_single_node_perftest_multi_thread.sh --threads=256 --nicport=2 --hostname=ctr-ubbsmc17.amd.com --duration=300 &" | tee log/run_single_node_perftest_multi_thread.$i.log &
 
 #   ping test
-#   ping -c 4 -W 5 $i 
+#    ping -c 4 -W 5 $i 
 
 #   set root password.
 #   sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "echo amd1234 | sudo passwd root --stdin"
 #   sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "ls -l /opt"
-#   sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "sudo reboot"
+    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "sudo reboot"
 #   check No. of threads running.
     counter=$((counter+1))
 done
