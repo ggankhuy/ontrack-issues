@@ -39,7 +39,7 @@ function disacs1() {
 
 function runtest1() {
     RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
-    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo nohup ./run_single_node_perftest_multi_thread.sh --threads=256 --nicport=2 --hostname=$RET_HOSTNAME --duration=300 &" | tee log/run_single_node_perftest_multi_thread.$i.log 2>&1 | tee $LOG_FOLDER/perftest.run.$RET_HOSTNAME.$i.log &
+    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo nohup ./run_single_node_perftest_multi_thread.sh --threads=256 --nicport=2 --hostname=$RET_HOSTNAME --duration=300 &" 2>&1 | tee $LOG_FOLDER/perftest.run.$RET_HOSTNAME.$i.log &
 }
 #   process cmdline parameteres
 
