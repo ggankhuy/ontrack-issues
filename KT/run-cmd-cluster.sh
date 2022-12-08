@@ -1,4 +1,4 @@
-ATE=`date +%Y%m%d-%H-%M-%S`
+DATE=`date +%Y%m%d-%H-%M-%S`
 LOG_FOLDER=log/$DATE
 mkdir -p $LOG_FOLDER
 
@@ -34,7 +34,7 @@ function disacs1() {
     RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
     RET_HOSTNAME=`echo $RET_HOSTNAME | cut -d '.' -f1 | cut -d '-' -f2`
     echo $RET_HOSTNAME: $RET_HOSTNAME
-    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo chmod 755 ~/KT.SMCA-21/dis_acs.sh ; sudo ~/KT.SMCA-21/dis_acs.sh ; sudo ~/KT.SMCA-21//netconfig/ctr-ubbsmc-net-scripts.tar/ctr-ubbsmc-net-scripts/roce_iprouting.$RET_HOSTNAME.sh" 2>&1 | tee log/netconfig.$RET_HOSTNAME.$i.log &
+    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo chmod 755 ~/KT.SMCA-21/dis_acs.sh ; sudo ~/KT.SMCA-21/dis_acs.sh ; sudo ~/KT.SMCA-21//netconfig/ctr-ubbsmc-net-scripts.tar/ctr-ubbsmc-net-scripts/roce_iprouting.$RET_HOSTNAME.sh" 2>&1 | tee $LOG_FOLDER/netconfig.$RET_HOSTNAME.$i.log &
 }
 
 function runtest1() {
