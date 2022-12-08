@@ -77,22 +77,21 @@ for i in ${NODE_IPS[@]} ; do
 
 #   copy KT files. working
 
-    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo rm -rf ~/KT.SMCA-21"
-    sshpass -p ${NODE_PWS[$counter]} scp -C -r -o StrictHostKeyChecking=no -o ConnectTimeout=10 /home/master/transit/KT.SMCA-21 ${NODE_USERS[$counter]}@$i:~/
+#    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo rm -rf ~/KT.SMCA-21"
+#    sshpass -p ${NODE_PWS[$counter]} scp -C -r -o StrictHostKeyChecking=no -o ConnectTimeout=10 /home/master/transit/KT.SMCA-21 ${NODE_USERS[$counter]}@$i:~/
 
 #   run disacs.
 
-    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "ls -l ~/KT.SMCA-21/dis_acs.sh"
+    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo chmod 755 ~/KT.SMCA-21/dis_acs.sh ; sudo ~/KT.SMCA-21/dis_acs.sh"
     RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
     RET_HOSTNAME=`echo $RET_HOSTNAME | cut -d '.' -f1 | cut -d '-' -f2`
     echo $RET_HOSTNAME: $RET_HOSTNAME
-    sleep 3
+    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo ~/KT.SMCA-21//netconfig/ctr-ubbsmc-net-scripts.tar/ctr-ubbsmc-net-scripts/roce_iprouting.$RET_HOSTNAME.sh"
 
 #   run netconfig script.
+#   run recreate script.
 
-    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "ls -l ~/KT.SMCA-21//netconfig/ctr-ubbsmc-net-scripts.tar/ctr-ubbsmc-net-scripts/roce_iprouting.$RET_HOSTNAME.sh"
-
-#   run netconfig.
+#   sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo nohup ./recreate_test.sh &"
 
 #   ping test
 #   ping -c 4 -W 5 $i 
@@ -100,6 +99,8 @@ for i in ${NODE_IPS[@]} ; do
 #   set root password.
 #   sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "echo amd1234 | sudo passwd root --stdin"
 #   sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "ls -l /opt"
+#   sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "sudo reboot"
+#   check No. of threads running.
     counter=$((counter+1))
 done
 
