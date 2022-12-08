@@ -1,4 +1,4 @@
-ATE=`date +%Y%m%d-%H-%M-%S`
+DATE=`date +%Y%m%d-%H-%M-%S`
 LOG_FOLDER=log/$DATE
 mkdir -p $LOG_FOLDER
 
@@ -33,8 +33,10 @@ for i in ${NODE_IPS[@]} ; do
 #   echo sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo cat /opt/rocm-*/.info/version"    
 
 #   check No. of threads running.
-    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "ps -ax | grep ib_write | wc -l"
-#   sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "dmesg"
+    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "pgrep ib_write | wc -l ; netstat -in ; dmesg" | tee $LOG_FOLDER/perftest.stat.all.$DATE.$i.log &
+#    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "pgrep ib_write | wc -l" | tee $LOG_FOLDER/perftest.no.of.threads.$DATE.$i.log
+#    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "netstat -in" | tee $LOG_FOLDER/netstat.$DATE.$i.log
+#    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "dmesg" | tee $LOG_FOLDER/dmesg.$DATE.$i.log
     counter=$((counter+1))
 done
 

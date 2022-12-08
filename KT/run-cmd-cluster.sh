@@ -18,11 +18,62 @@ NODE_PWS=(\
     "AMD123!" "AMD123!" "AMD123!" "AMD123!"\
     "AMD123!" "amd123!" "AMD123!" "AMD123!")
 
+#   function definitions.
+
+function ping1() {
+    ping -c 4 -W 5 $i 
+
+
+}
+
+function reboot1() {
+    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "sudo reboot" 
+}
+
+function disacs1() {
+    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo chmod 755 ~/KT.SMCA-21/dis_acs.sh ; sudo ~/KT.SMCA-21/dis_acs.sh" | tee log/dis_acs.$i.log
+    RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
+    RET_HOSTNAME=`echo $RET_HOSTNAME | cut -d '.' -f1 | cut -d '-' -f2`
+    echo $RET_HOSTNAME: $RET_HOSTNAME
+    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo ~/KT.SMCA-21//netconfig/ctr-ubbsmc-net-scripts.tar/ctr-ubbsmc-net-scripts/roce_iprouting.$RET_HOSTNAME.sh" | tee log/netconfig.$i.log
+}
+
+function run_test1() {
+    RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
+    sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo nohup ./run_single_node_perftest_multi_thread.sh --threads=256 --nicport=2 --hostname=$RET_HOSTNAME --duration=300 &" | tee log/run_single_node_perftest_multi_thread.$i.log &
+}
+#   process cmdline parameteres
+
+FNC_NAME=""
+for var in "$@"
+do
+    if [[ $var == "--reboot" ]]  ; then
+        echo "Setting function name to reboot1"
+        FNC_NAME="reboot1"
+    fi
+
+    if [[ $var == "--ping" ]]  ; then
+        echo "Setting function name to ping1"
+        FNC_NAME="ping1"
+    fi
+
+    if [[ $var == "--setup" ]]  ; then
+        echo "Setting function name to disacs1. This will disable acs and setup netconfig, after reboot."
+        FNC_NAME="disacs1"
+    fi
+    if [[ $var == "--run" ]]  ; then
+        echo "Run the actual test script."
+        FNC_NAME="runtest1"
+    fi
+done
+
 counter=0
 for i in ${NODE_IPS[@]} ; do
     echo "--------------------------------------------------------------------"
     echo "NODE_IPS/USER/PWS: $i, ${NODE_USERS[$counter]}, ${NODE_PWS[$counter]}"
-
+    $FNC_NAME
+    counter=$((counter+1))
+done
 #    if [[ $counter -eq 0 ]] ; then
 #        counter=$((counter+1))
 #        echo "bypassing 1st node."
@@ -82,25 +133,16 @@ for i in ${NODE_IPS[@]} ; do
 
 #   run disacs.
 
-    #sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo chmod 755 ~/KT.SMCA-21/dis_acs.sh ; sudo ~/KT.SMCA-21/dis_acs.sh" | tee log/dis_acs.$i.log
-    #RET_HOSTNAME=`sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "hostname"`
-    #RET_HOSTNAME=`echo $RET_HOSTNAME | cut -d '.' -f1 | cut -d '-' -f2`
-    #echo $RET_HOSTNAME: $RET_HOSTNAME
-    #sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "sudo ~/KT.SMCA-21//netconfig/ctr-ubbsmc-net-scripts.tar/ctr-ubbsmc-net-scripts/roce_iprouting.$RET_HOSTNAME.sh" | tee log/netconfig.$i.log
-
 #   run recreate script.
 
 #   sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo  ./recreate_test.sh"
-#   sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "pushd ~/perftest ; sudo dmesg --clear ; sudo nohup ./run_single_node_perftest_multi_thread.sh --threads=256 --nicport=2 --hostname=ctr-ubbsmc17.amd.com --duration=300 &" | tee log/run_single_node_perftest_multi_thread.$i.log &
 
-#   ping test
-#    ping -c 4 -W 5 $i 
+#   run perftest script.
+
 
 #   set root password.
 #   sshpass -p ${NODE_PWS[$counter]} ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ${NODE_USERS[$counter]}@$i "echo amd1234 | sudo passwd root --stdin"
 #   sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "ls -l /opt"
-    sshpass -p amd1234 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@$i "sudo reboot"
+
 #   check No. of threads running.
-    counter=$((counter+1))
-done
 
