@@ -1,0 +1,5 @@
+$ sudo ./set_ips_post_reboot.sh
+$ sudo ./iproute_set.sh
+$ sudo su
+$ ./nic_settings.sh
+$ su AMD
