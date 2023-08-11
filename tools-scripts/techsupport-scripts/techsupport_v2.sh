@@ -116,7 +116,7 @@ case "$OS_NAME" in
      ;;
 esac
 
-$PKG_EXEC install tree virt-what sshpass wcstools numactl -y 
+$PKG_EXEC install tree virt-what sshpass wcstools numactl dkms tree -y 
 if [[ $?  -ne 0 ]] ; then
 	echo "ERROR: Failed to install packages..."
 	exit 1
