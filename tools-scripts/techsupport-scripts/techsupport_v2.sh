@@ -184,8 +184,8 @@ function ts_helper_full_logs() {
         modinfo amdgpu | tee $CONFIG_FILE_MODINFO_AMDGPU_HOST
         for i in /sys/module/amdgpu/parameters/* ; do echo -n $i: ; cat $i ; done 2>&1 | tee $CONFIG_FILE_PARM_AMDGPU_HOST 
         rocminfo 2>&1 | tee $CONFIG_FILE_ROCMINFO_HOST
-        rocm-smi --showall 2>&1 | tee $CONFIG_FILE_ROCMSMI_HOST
-        rocm-smi --showtopo 2>&1 | tee $CONFIG_FILE_ROCMSMI_HOST
+        rocm-smi --showall 2>&1 | tee -a $CONFIG_FILE_ROCMSMI_HOST
+        rocm-smi --showtopo 2>&1 | tee -a $CONFIG_FILE_ROCMSMI_HOST
 
         # Gather sysfiles.
 
