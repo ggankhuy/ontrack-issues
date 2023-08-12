@@ -116,7 +116,7 @@ case "$OS_NAME" in
      ;;
 esac
 
-$PKG_EXEC install tree virt-what sshpass wcstools numactl -y 
+$PKG_EXEC install tree virt-what sshpass wcstools numactl dkms tree -y 
 if [[ $?  -ne 0 ]] ; then
 	echo "ERROR: Failed to install packages..."
 	exit 1
@@ -184,8 +184,8 @@ function ts_helper_full_logs() {
         modinfo amdgpu | tee $CONFIG_FILE_MODINFO_AMDGPU_HOST
         for i in /sys/module/amdgpu/parameters/* ; do echo -n $i: ; cat $i ; done 2>&1 | tee $CONFIG_FILE_PARM_AMDGPU_HOST 
         rocminfo 2>&1 | tee $CONFIG_FILE_ROCMINFO_HOST
-        rocm-smi --showall 2>&1 | tee $CONFIG_FILE_ROCMSMI_HOST
-        rocm-smi --showtopo 2>&1 | tee $CONFIG_FILE_ROCMSMI_HOST
+        rocm-smi --showall 2>&1 | tee -a $CONFIG_FILE_ROCMSMI_HOST
+        rocm-smi --showtopo 2>&1 | tee -a $CONFIG_FILE_ROCMSMI_HOST
 
         # Gather sysfiles.
 
