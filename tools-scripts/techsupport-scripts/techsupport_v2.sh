@@ -116,9 +116,9 @@ case "$OS_NAME" in
      ;;
 esac
 
-$PKG_EXEC install tree virt-what sshpass wcstools numactl dkms tree -y 
+$PKG_EXEC install tree virt-what sshpass wcstools numactl -y 
 if [[ $?  -ne 0 ]] ; then
-	echo "ERROR: Failed to install packages..."
+/	echo "ERROR: Failed to install packages..."
 	exit 1
 fi
 
@@ -184,8 +184,8 @@ function ts_helper_full_logs() {
         modinfo amdgpu | tee $CONFIG_FILE_MODINFO_AMDGPU_HOST
         for i in /sys/module/amdgpu/parameters/* ; do echo -n $i: ; cat $i ; done 2>&1 | tee $CONFIG_FILE_PARM_AMDGPU_HOST 
         rocminfo 2>&1 | tee $CONFIG_FILE_ROCMINFO_HOST
-        rocm-smi --showall 2>&1 | tee -a $CONFIG_FILE_ROCMSMI_HOST
-        rocm-smi --showtopo 2>&1 | tee -a $CONFIG_FILE_ROCMSMI_HOST
+        rocm-smi --showall 2>&1 | tee $CONFIG_FILE_ROCMSMI_HOST
+        rocm-smi --showtopo 2>&1 | tee $CONFIG_FILE_ROCMSMI_HOST
 
         # Gather sysfiles.
 
@@ -252,9 +252,9 @@ function ts_helper_summary_logs() {
         echo "ts_helper_summary_logs entered..."
         echo "p1: $p1"
     fi
-    echo $DOUBLE_BAR|  tee -a $COFNIG_FILE_PLAT_INFO
+    echo $DOUBLE_BAR|  tee -a $CONFIG_FILE_PLAT_INFO
     echo "LIBGV HOST SUMMARY:"
-    echo $DOUBLE_BAR|  tee -a $COFNIG_FILE_PLAT_INFO
+    echo $DOUBLE_BAR|  tee -a $CONFIG_FILE_PLAT_INFO
 	echo    "HOSTNAME:  " `hostname` | tee $CONFIG_FILE_PLAT_INFO
 	echo $SINGLE_BAR | tee -a $CONFIG_FILE_PLAT_INFO
 
@@ -312,6 +312,13 @@ function ts_helper_summary_logs() {
     else
         echo "warning: Unknown parameter! "
     fi
+
+    echo $SINGLE_BAR | tee -a $CONFIG_FILE_PLAT_INFO
+    echo "torch pip packages: " | tee -a $CONFIG_FILE_PLAT_INFO
+    echo $SINGLE_BAR | tee -a $CONFIG_FILE_PLAT_INFO
+    pip3 list | grep -i torch 2>&1 | tee -a $CONFIG_FILE_PLAT_INFO
+    echo $SINGLE_BAR | tee -a $CONFIG_FILE_PLAT_INFO
+    sleep 3
 }
 function ts_amdgpu_compat_summary_logs() {
     ts_helper_summary_logs amdgpu
@@ -334,9 +341,9 @@ function ts_helper_guest_summary_logs() {
 
 	#echo "VM KERNEL:	"`sshpass -p amd1234 ssh root@$vmIp 'uname -r'` | tee -a $CONFIG_FILE_PLAT_INFO
 
-    echo $DOUBLE_BAR|  tee -a $COFNIG_FILE_PLAT_INFO
+    echo $DOUBLE_BAR|  tee -a $CONFIG_FILE_PLAT_INFO
     echo "LIBGV GUEST SUMMARY: $vmIP"
-    echo $DOUBLE_BAR|  tee -a $COFNIG_FILE_PLAT_INFO
+    echo $DOUBLE_BAR|  tee -a $CONFIG_FILE_PLAT_INFO
 	echo "VM OS:"`sshpass -p amd1234 ssh root@$vmIp 'cat /etc/os-release | grep PRETTY_NAME'`| tee -a $CONFIG_FILE_PLAT_INFO
 	echo $SINGLE_BAR | tee -a $CONFIG_FILE_PLAT_INFO
 	echo "GPU.rocm-smi:"`sshpass -p amd1234 ssh root@$vmIp 'rocm-smi --showall | grep series:'`| tee -a $CONFIG_FILE_PLAT_INFO
