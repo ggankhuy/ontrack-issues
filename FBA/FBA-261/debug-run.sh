@@ -11,7 +11,7 @@ for size in 512 1024 2048 4096 8192 ; do
     curr_line=""
     row_idx=0
     for dtype in float float16 bfloat16 ; do
-        #TENSILE_DB=0x8000 python3 linear-arg.py 2>&1 | tee $LOG_DIR/linear-arg.size.$size.$size.$size.$dtype.TENSILE_DB.0x8000.log
+        TENSILE_DB=0x8000 python3 linear-arg.py 2>&1 | tee $LOG_DIR/linear-arg.size.$size.$size.$size.$dtype.TENSILE_DB.0x8000.log
         python3 linear-arg.py 2>&1 | tee $LOG_DIR/linear-arg.size.$size.$size.$size.$dtype.log
     done
     for dtype in float float16 bfloat16 ; do
