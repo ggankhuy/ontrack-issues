@@ -5,6 +5,7 @@ sudo mkdir -p $LOG_DIR
 csv_filename=output.csv
 
 echo -ne "" > $csv_filename
+echo "x,float,float16,bfloat16" >> $csv_filename
 
 for size in 512 1024 2048 4096 8192 ; do
     curr_line=""
@@ -15,7 +16,8 @@ for size in 512 1024 2048 4096 8192 ; do
     done
     for dtype in float float16 bfloat16 ; do
         tflops_curr=`cat $LOG_DIR/linear-arg.size.$size.$size.$size.$dtype.log  | grep TFLOPS |  awk '{print $2}'`
-
+    
+        echo -ne "$size," >> $csv_filename
         if [[ $row_idx == 2 ]]  ; then
             echo "$tflops_curr" >> $csv_filename
         else
