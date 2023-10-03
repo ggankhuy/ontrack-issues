@@ -106,6 +106,6 @@ bool hipTestWithoutGraph() {
 
 int main(int argc, char* argv[]) {
   bool status1, status2;
-  status1 = hipTestWithoutGraph();
-//status2 = hipTestWithGraph();
+  //status1 = hipTestWithoutGraph()
+  status2 = hipTestWithGraph();
 }
