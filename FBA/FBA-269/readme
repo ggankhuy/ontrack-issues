@@ -1,0 +1,6 @@
+use following to build rccl-test (ubuntu22.04, has not worked for centos)
+workaround: centos bare-metal (since kernel ipc might be causing), container: 22.04.
+
+apt install libopenmpi-dev -y
+dpkg-query -L libopenmpidev | grep "mpi\.h" // optional to get mpi_home path
+./install.sh -m --mpi_home=/usr/lib/x86_64-linux-gnu/openmpi/
