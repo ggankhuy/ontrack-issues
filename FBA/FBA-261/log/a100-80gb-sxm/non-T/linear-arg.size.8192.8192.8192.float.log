@@ -1,0 +1,5 @@
+8902
+
+* Run Linear 8192 x 8192 x 8192, dtype = torch.float32
+Finished inference 8192 x 8192 x 8192, 100 iterations in 8439.08 us/iter
+Achieved 130.29 TFLOPS
