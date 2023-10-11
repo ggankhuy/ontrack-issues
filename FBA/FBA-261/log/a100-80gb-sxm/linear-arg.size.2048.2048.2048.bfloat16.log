@@ -1,0 +1,5 @@
+8902
+
+* Run Linear 2048 x 2048 x 2048, dtype = torch.bfloat16
+Finished inference 2048 x 2048 x 2048, 100 iterations in 137.68 us/iter
+Achieved 124.78 TFLOPS
