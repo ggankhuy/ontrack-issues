@@ -1,0 +1,32 @@
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/concurrent/futures/process.py", line 246, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+  File "/usr/local/lib64/python3.9/site-packages/torch/_inductor/codecache.py", line 1255, in _worker_compile
+    kernel = TritonCodeCache.load(kernel_name, source_code)
+  File "/usr/local/lib64/python3.9/site-packages/torch/_inductor/codecache.py", line 1249, in load
+    mod = PyCodeCache.load(source_code)
+  File "/usr/local/lib64/python3.9/site-packages/torch/_inductor/codecache.py", line 1124, in load
+    return cls.load_by_key_path(key, path, linemap)
+  File "/usr/local/lib64/python3.9/site-packages/torch/_inductor/codecache.py", line 1139, in load_by_key_path
+    exec(code, mod.__dict__, mod.__dict__)
+  File "/tmp/torchinductor_root/ji/cjivs4encceskkc525nwivnfuv5dk53uzdmkdwyfmwj5vg7cuqdv.py", line 10, in <module>
+    @pointwise(
+TypeError: pointwise() got an unexpected keyword argument 'min_elem_per_thread'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/gg/git/fba/FBA/FBA-279/triton-2.py", line 112, in <module>
+    async_compile.wait(globals())
+  File "/usr/local/lib64/python3.9/site-packages/torch/_inductor/codecache.py", line 1418, in wait
+    scope[key] = result.result()
+  File "/usr/local/lib64/python3.9/site-packages/torch/_inductor/codecache.py", line 1277, in result
+    self.future.result()
+  File "/usr/lib64/python3.9/concurrent/futures/_base.py", line 446, in result
+    return self.__get_result()
+  File "/usr/lib64/python3.9/concurrent/futures/_base.py", line 391, in __get_result
+    raise self._exception
+TypeError: pointwise() got an unexpected keyword argument 'min_elem_per_thread'
