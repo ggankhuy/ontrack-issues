@@ -3,13 +3,15 @@ import time
 
 import torch
 
+'''
 from deeplearning.accelerator_perf.amdgpu.benchmarks.gpu_profile_lib import (
     GpuProfileLib,
     GpuProfilerParams,
 )
+'''
 
 def main(enable_cudagraph, enable_compile) -> int:
-    gpu_profiler = GpuProfileLib(params=GpuProfilerParams(active=50))
+#    gpu_profiler = GpuProfileLib(params=GpuProfilerParams(active=50))
     # gpu_profiler = GpuProfileLib()
 
     N, D_in, H, D_out = 10, 10, 10, 10
@@ -87,7 +89,7 @@ def main(enable_cudagraph, enable_compile) -> int:
     real_inputs = [torch.rand_like(static_input) for _ in range(1000)]
     real_targets = [torch.rand_like(static_target) for _ in range(1000)]
 
-    gpu_profiler.start()
+#   gpu_profiler.start()
 
     torch.cuda.synchronize()
     t1 = time.time()
@@ -108,9 +110,9 @@ def main(enable_cudagraph, enable_compile) -> int:
             loss = loss_fn(y_pred, target)
             loss.backward()
             optimizer.step()
-        gpu_profiler.step()
+#        gpu_profiler.step()
     torch.cuda.synchronize()
-    gpu_profiler.stop()
+#    gpu_profiler.stop()
     torch.cuda.synchronize()
 
     t2 = time.time()
