@@ -47,6 +47,7 @@ int main(int argc, char **argv)
   // Every rank allocates a memory buffer and opens an IPC handle to it
   std::vector<int*> buffers(numRanks);
   HIP_CALL(hipSetDevice(rank));
+  printf("No. of devices: %u.\n", rank);
   size_t numBytes = (1 << 20);
   HIP_CALL(hipMalloc((void**)&buffers[rank], numBytes));
   for (int i = 0; i < numRanks; i++)
