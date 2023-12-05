@@ -1,0 +1,28 @@
+# @noautodeps
+
+load("@fbcode//tools/build/buck:rocm_flags.bzl", "get_rocm_arch_args")
+load("@fbcode_macros//build_defs:cpp_binary.bzl", "cpp_binary")
+
+oncall("amdgpu_fbcode_enablement")
+
+cpp_binary(
+    name = "ipc_hip",
+    srcs = ["ipc.hip"],
+    headers = [
+        "helper_hip.h",
+        "helper_string.h",
+    ],
+    compiler_flags = [
+        "-Wno-error=switch",
+        "-Wno-error=int-in-bool-context",
+    ],
+    hip_flags = get_rocm_arch_args() + [
+        "-Wno-error=switch",
+        "-Wno-error=int-in-bool-context",
+        "-Wno-error=unused-result",
+        "-Wno-error=format",
+    ],
+    external_deps = [
+        ("rocm", None, "amdhip64-lazy"),
+    ],
+)
