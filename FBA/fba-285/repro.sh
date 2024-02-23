@@ -73,8 +73,8 @@ for loop in {0..300} ; do
                 "sudo dmesg | sudo tee fba-285/dmesg.after.modprobe.amdgpu.$loop.log" \
                 "sudo dmesg --clear" \
                 "$CONFIG_CMD_KFD_TEST" \
-                "sudo dmesg | sudo tee fba-285/dmesg.after.workload.'$loop'.log" \
-                "sudo dmesg --clear" "sudo rmmod amdgpu" "sudo dmesg | sudo tee fba-285/dmesg.after.rmmod.$loop.log" \
+                "sudo dmesg | sudo tee fba-285/dmesg.after.workload.$loop.log" \
+                "sudo dmesg --clear" "sudo rmmod amdgpu" "sudo dmesg | sudo tee fba-285/dmesg.after.rmmod.$loop.log" "sudo reboot" \
         ; do
         echo "$SINGLE_BAR"
         echo --- $cmd ---
@@ -113,6 +113,7 @@ for loop in {0..300} ; do
 
         if [[ "$cmd" == "sudo reboot" ]] ; then
             echo "Reboot issued. Waiting for system to become online"
+            sleep 15
             wait_host_up
 
             if [[ $? -ne 0 ]] ; then
