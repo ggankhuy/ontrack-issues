@@ -64,8 +64,7 @@ fi
 CONFIG_CMD_KFD_TEST="/usr/local/bin/kfdtest --gtest_filter=-*LargestSysBuffero* 2>&1 | sudo tee fba-285/$loop.kfdtest.log "
 CONFIG_CMD_KFD_TEST=""
 
-for loop in {0..300
-} ; do
+for loop in {0..300} ; do
     echo $DOUBLE_BAR
     echo "Current loop: $loop........"
 
