@@ -4,7 +4,6 @@ set +x
 PW='\#3paleHorse5\#'
 USER=master
 
-# working ok.
 PW=amd1234
 USER=ggankhuy
 
@@ -16,6 +15,7 @@ PASSWORDLESS_LOGIN=1
 LOOP_COUNT=3
 SINGLE_BAR="-----------------------------"
 DOUBLE_BAR="============================="
+
 CONFIG_WAIT_HOST_UP_LOOP_TIMES=60
 CONFIG_WAIT_HOST_UP_LOOP_INTERVAL=5
 CONFIG_PUBKEY=~/.ssh/id_rsa.pub
@@ -26,13 +26,18 @@ CONFIG_FLAG_DEBUG_SSH_LOGIN=""
 CONFIG_FLAG_SSH_LOGIN_EXPLICIT=" -i $CONFIG_PUBKEY"
 CONFIG_FLAG_SSH_LOGIN_EXPLICIT=""
 CONFIG_TEST_MODE=0
-# wait until host reboot. 60 loop + 1 second interval
+
+CONFIG_CMD_KFD_TEST="/usr/local/bin/kfdtest --gtest_filter=-*LargestSysBuffero* 2>&1 | sudo tee fba-285/$loop.kfdtest.log "
+CONFIG_CMD_KFD_TEST=""
+
+# Wait until host reboot. CONFIG_WAIT_HOST_UP_LOOP_TIMES * CONFIG_WAIT_HOST_UP_LOOP_INTERVAL wait time.
 
 function wait_host_up() {
     sleep 3
     for i in {1..300} ; do
         echo -ne "."
         ping -c 1 -W $CONFIG_WAIT_HOST_UP_LOOP_INTERVAL $CONFIG_IP_GUEST
+
         if  [[ $? -eq 0 ]] ; then
             echo "Host $CONFIG_IP_GUEST is back online."
             return 0
@@ -45,6 +50,8 @@ function wait_host_up() {
     echo "Host is not unreachable after reboot or not reachable at all."
     exit 1
 }
+
+# command arrays to send. saved here as backup.
 
 #                "sudo reboot" \
 #                "sudo dmesg | sudo tee fba-285/dmesg.after.reboot.$loop.log" \
@@ -61,8 +68,7 @@ else
     echo "ok."
 fi
 
-CONFIG_CMD_KFD_TEST="/usr/local/bin/kfdtest --gtest_filter=-*LargestSysBuffero* 2>&1 | sudo tee fba-285/$loop.kfdtest.log "
-CONFIG_CMD_KFD_TEST=""
+#   Start loop now: reboot + load and unload kfd. Gather dmesg after each.
 
 for loop in {0..300} ; do
     echo $DOUBLE_BAR
@@ -76,6 +82,7 @@ for loop in {0..300} ; do
                 "sudo dmesg | sudo tee fba-285/dmesg.after.workload.$loop.log" \
                 "sudo dmesg --clear" "sudo rmmod amdgpu" "sudo dmesg | sudo tee fba-285/dmesg.after.rmmod.$loop.log" "sudo reboot" \
         ; do
+
         echo "$SINGLE_BAR"
         echo --- $cmd ---
 
@@ -95,25 +102,32 @@ for loop in {0..300} ; do
                         echo "$CONFIG_PUBKEY does not exit. Likely fail...!"
                     fi
 
-                    ssh -v $CONFIG_FLAG_DEBUG_SSH_LOGIN $CONFIG_FLAG_SSH_LOGIN_EXPLICIT -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no $USER@$CONFIG_IP_GUEST $cmd
+                    ssh $CONFIG_FLAG_DEBUG_SSH_LOGIN $CONFIG_FLAG_SSH_LOGIN_EXPLICIT -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no $USER@$CONFIG_IP_GUEST $cmd
                 else
                     echo "Logging in with password: cmd: $cmd"
-                    sshpass -p $PW ssh -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no $USER@$CONFIG_IP_GUEST "echo pwd: ;pwd; $cmd"
+                    sshpass -p $PW ssh -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no $USER@$CONFIG_IP_GUEST "$cmd"
                 fi
             fi
         fi
+
         ret=$?
         sleep 3
-        
+
+        # untested, commented out...        
         #if [[ $ret != 0 && $ret != 1 ]] ; then 
         #    echo "code: $ret. Error executing $cmd on remote $CONFIG_IP_GUEST with credentials: $USER/$PW"
         #    exit 1
         #fi
-        sleep 1
 
         if [[ "$cmd" == "sudo reboot" ]] ; then
-            echo "Reboot issued. Waiting for system to become online"
+            echo "Reboot issued. Waiting for system to become online."
+
+            # Give 15 seconds till IP service shutdown and become unpingable.
+
             sleep 15
+
+            # Start pinging till reboot complete.
+
             wait_host_up
 
             if [[ $? -ne 0 ]] ; then
@@ -124,6 +138,8 @@ for loop in {0..300} ; do
         fi
     done
 done
+
+#   Fetch the output through scp.
 
 mkdir $OUTPUT_DIR -p
 
