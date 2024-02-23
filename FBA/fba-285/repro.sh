@@ -1,5 +1,5 @@
-# this is cloned from FBA-212 script with necessary mod as needed.
-
+# this is cloned from FBA-285 script with necessary mod as needed.
+set +x
 # not working
 PW='\#3paleHorse5\#'
 USER=master
@@ -9,7 +9,7 @@ PW=amd1234
 USER=ggankhuy
 
 DATE=`date +%Y%m%d-%H-%M-%S`
-OUTPUT_DIR=fba-212-$DATE
+OUTPUT_DIR=./log/fba-285-$DATE
 CONFIG_IP_GUEST=gt-pla-u23-18.pla.dcgpu
 CONFIG_PORT_GUEST=22
 PASSWORDLESS_LOGIN=1
@@ -47,10 +47,10 @@ function wait_host_up() {
 }
 
 #                "sudo reboot" \
-#                "sudo dmesg | sudo tee fba-212/dmesg.after.reboot.'$loop'.log" \
-#                "/usr/local/bin/run_kfdtest.sh 2>&1 | sudo tee fba-212/$loop.kfdtest.log " \
-#                "/usr/local/bin/kfdtest --gtest_filter=-*LargestSysBuffero* 2>&1 | sudo tee fba-212/$loop.kfdtest.log " \
-#                "sudo /opt/rocm-5.0.1/rvs/rvs -c /opt/rocm-5.0.1/rvs/conf/gst_single.conf 2>&1 | sudo tee fba-212/$loop.rvs.gst.test.log" \
+#                "sudo dmesg | sudo tee fba-285/dmesg.after.reboot.$loop.log" \
+#                "/usr/local/bin/run_kfdtest.sh 2>&1 | sudo tee fba-285/$loop.kfdtest.log " \
+#                "/usr/local/bin/kfdtest --gtest_filter=-*LargestSysBuffero* 2>&1 | sudo tee fba-285/$loop.kfdtest.log " \
+#                "sudo /opt/rocm-5.0.1/rvs/rvs -c /opt/rocm-5.0.1/rvs/conf/gst_single.conf 2>&1 | sudo tee fba-285/$loop.rvs.gst.test.log" \
 
 echo "Verifying host is up..."
 wait_host_up
@@ -61,20 +61,21 @@ else
     echo "ok."
 fi
 
-CONFIG_CMD_KFD_TEST="/usr/local/bin/kfdtest --gtest_filter=-*LargestSysBuffero* 2>&1 | sudo tee fba-212/$loop.kfdtest.log "
+CONFIG_CMD_KFD_TEST="/usr/local/bin/kfdtest --gtest_filter=-*LargestSysBuffero* 2>&1 | sudo tee fba-285/$loop.kfdtest.log "
 CONFIG_CMD_KFD_TEST=""
 
-for loop in {0..10} ; do
+for loop in {0..300
+} ; do
     echo $DOUBLE_BAR
     echo "Current loop: $loop........"
 
     for cmd in  "sudo mkdir fba-285" \
                 "sudo dmesg --clear"  "sudo modprobe amdgpu" \
-                "sudo dmesg | sudo tee fba-212/dmesg.after.modprobe.amdgpu.'$loop'.log" \
+                "sudo dmesg | sudo tee fba-285/dmesg.after.modprobe.amdgpu.$loop.log" \
                 "sudo dmesg --clear" \
                 "$CONFIG_CMD_KFD_TEST" \
-                "sudo dmesg | sudo tee fba-212/dmesg.after.workload.'$loop'.log" \
-                "sudo dmesg --clear" "sudo rmmod amdgpu" "sudo dmesg | sudo tee fba-212/dmesg.after.rmmod.$loop.log" \
+                "sudo dmesg | sudo tee fba-285/dmesg.after.workload.'$loop'.log" \
+                "sudo dmesg --clear" "sudo rmmod amdgpu" "sudo dmesg | sudo tee fba-285/dmesg.after.rmmod.$loop.log" \
         ; do
         echo "$SINGLE_BAR"
         echo --- $cmd ---
@@ -98,7 +99,7 @@ for loop in {0..10} ; do
                     ssh -v $CONFIG_FLAG_DEBUG_SSH_LOGIN $CONFIG_FLAG_SSH_LOGIN_EXPLICIT -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no $USER@$CONFIG_IP_GUEST $cmd
                 else
                     echo "Logging in with password: cmd: $cmd"
-                    sshpass -p $PW ssh -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no $USER@$CONFIG_IP_GUEST "pwd; $cmd"
+                    sshpass -p $PW ssh -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no $USER@$CONFIG_IP_GUEST "echo pwd: ;pwd; $cmd"
                 fi
             fi
         fi
@@ -124,14 +125,15 @@ for loop in {0..10} ; do
     done
 done
 
+mkdir $OUTPUT_DIR -p
 
 if [[ $CONFIG_TEST_MODE -eq 1 ]] ; then
     echo "TEST_MODE: Executing ssh copy..."
 else
     if [[ $PASSWORDLESS_LOGIN -eq  1 ]] ; then
         
-        ssh $CONFIG_FLAG_SSH_LOGIN_EXPLICIT -p $PW scp  -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no -r $USER@$CONFIG_IP_GUEST:~/fba-212 $OUTPUT_DIR
+        scp -o StrictHostKeyChecking=no -r $USER@$CONFIG_IP_GUEST:~/fba-285 $OUTPUT_DIR
     else
-        sudo sshpass -p $PW scp  -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no -r $USER@$CONFIG_IP_GUEST:~/fba-212 $OUTPUT_DIR
+        sudo sshpass -p $PW scp -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no -r $USER@$CONFIG_IP_GUEST:~/fba-285 $OUTPUT_DIR
     fi
 fi
