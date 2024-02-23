@@ -25,7 +25,7 @@ CONFIG_FLAG_DEBUG_SSH_LOGIN=""
 
 CONFIG_FLAG_SSH_LOGIN_EXPLICIT=" -i $CONFIG_PUBKEY"
 CONFIG_FLAG_SSH_LOGIN_EXPLICIT=""
-CONFIG_TEST_MODE=1
+CONFIG_TEST_MODE=0
 # wait until host reboot. 60 loop + 1 second interval
 
 function wait_host_up() {
@@ -64,7 +64,7 @@ fi
 CONFIG_CMD_KFD_TEST="/usr/local/bin/kfdtest --gtest_filter=-*LargestSysBuffero* 2>&1 | sudo tee fba-212/$loop.kfdtest.log "
 CONFIG_CMD_KFD_TEST=""
 
-for loop in {1..10} ; do
+for loop in {0..10} ; do
     echo $DOUBLE_BAR
     echo "Current loop: $loop........"
 
@@ -74,7 +74,7 @@ for loop in {1..10} ; do
                 "sudo dmesg --clear" \
                 "$CONFIG_CMD_KFD_TEST" \
                 "sudo dmesg | sudo tee fba-212/dmesg.after.workload.'$loop'.log" \
-                "sudo dmesg --clear" "sudo rmmod amdgpu" "sudo dmesg | sudo tee fba-212/dmesg.after.rmmod.'$loop'.log" \
+                "sudo dmesg --clear" "sudo rmmod amdgpu" "sudo dmesg | sudo tee fba-212/dmesg.after.rmmod.$loop.log" \
         ; do
         echo "$SINGLE_BAR"
         echo --- $cmd ---
@@ -98,7 +98,7 @@ for loop in {1..10} ; do
                     ssh -v $CONFIG_FLAG_DEBUG_SSH_LOGIN $CONFIG_FLAG_SSH_LOGIN_EXPLICIT -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no $USER@$CONFIG_IP_GUEST $cmd
                 else
                     echo "Logging in with password: cmd: $cmd"
-                    sshpass -p $PW ssh -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no $USER@$CONFIG_IP_GUEST $cmd
+                    sshpass -p $PW ssh -p $CONFIG_PORT_GUEST -o StrictHostKeyChecking=no $USER@$CONFIG_IP_GUEST "pwd; $cmd"
                 fi
             fi
         fi
@@ -125,7 +125,7 @@ for loop in {1..10} ; do
 done
 
 
-if [[ $CONFIG_TEST_MODE -eq 1 ]] then ; 
+if [[ $CONFIG_TEST_MODE -eq 1 ]] ; then
     echo "TEST_MODE: Executing ssh copy..."
 else
     if [[ $PASSWORDLESS_LOGIN -eq  1 ]] ; then
