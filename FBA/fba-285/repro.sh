@@ -34,7 +34,7 @@ CONFIG_CMD_KFD_TEST=""
 
 function wait_host_up() {
     sleep 3
-    for i in {1..300} ; do
+    for i in {1..500} ; do
         echo -ne "."
         ping -c 1 -W $CONFIG_WAIT_HOST_UP_LOOP_INTERVAL $CONFIG_IP_GUEST
 
