@@ -4,5 +4,6 @@ for i in rocm amdgpu; do
     dir=`dirname $path`
     pushd $dir
     pwd
+    createrepo .
     popd
 done
