@@ -26,9 +26,9 @@ for i in rocm amdgpu; do
     if [[ $i -eq rocm ]] ; then
         echo "Creating llvm soft links..."
         sleep 3
-        for $j in clang ld.lld ; do
-            sudo rm -rf /usr/bin/$i
-            sudo ln -s /opt/rocm/llvm/bin/$i /usr/bin/
+        for j in clang ld.lld ; do
+            sudo rm -rf /usr/bin/$j
+            sudo ln -s /opt/rocm/llvm/bin/$j /usr/bin/
         done
     fi
     popd
