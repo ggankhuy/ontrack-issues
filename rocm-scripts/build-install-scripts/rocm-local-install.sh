@@ -1,4 +1,31 @@
 #set -x
+
+function usage()
+{
+    echo "examples: $0  # install rocm + amdgpu"
+    echo "examples: $0 --no-dkms # install rocm only, no dkms, usually for docker env. "
+}
+
+function error() {
+    echo "Error! $error_string"
+    exit 1
+}
+
+for var in "$@"
+do
+    if [[ $DEBUG -eq 1 ]] ; then echo var: $var ; fi
+
+    if [[ $var == *"--help="* ]]  ; then
+        usage
+        exit 0
+    fi
+
+    if [[ $var == *"--no-dkms"* ]]  ; then
+        if [[ $DEBUG -eq 1 ]] ; then eecho "Will bypass dkms installation usually for docker env..." ; fi
+         nodkms=1
+    fi
+done
+
 yum install createrepo -y
 yum install epel-release epel-next-release -y 
 yum config-manager --set-enabled crb
@@ -22,7 +49,14 @@ for i in rocm amdgpu; do
     rm -rf /etc/yum.repos.d/$i*.repo
 
     cp $i.repo /etc/yum.repos.d/
+
+    if [[ $i -eq amdgpu ]] && [[ ! -z nodkms ]] ; then
+        echo "Will bypass dkms installation."
+        continue
+    fi
+
     yum install $i -y
+
     if [[ $i -eq rocm ]] ; then
         echo "Creating llvm soft links..."
         sleep 3
