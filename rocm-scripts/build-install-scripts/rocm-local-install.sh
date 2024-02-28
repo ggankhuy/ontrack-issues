@@ -1,9 +1,9 @@
-#set -x
+set -x
 SINGLE_LINE=---------------------------------------------------------------------------------------------
-
+DEBUG=0
 function usage()
 {
-    clear
+    if [[ -z $DEBUG ]] ; then clear ; fi
     echo $SINGLE_LINE
     echo "examples: $0  # install rocm + amdgpu"
     echo "examples: $0 --no-dkms # install rocm only, no dkms, usually for docker env. "
@@ -25,7 +25,7 @@ do
     fi
 
     if [[ $var == *"--no-dkms"* ]]  ; then
-        if [[ $DEBUG -eq 1 ]] ; then eecho "Will bypass dkms installation usually for docker env..." ; fi
+        if [[ $DEBUG -eq 1 ]] ; then echo "Will bypass dkms installation usually for docker env..." ; fi
          nodkms=1
     fi
 done
@@ -54,14 +54,16 @@ for i in rocm amdgpu; do
 
     cp $i.repo /etc/yum.repos.d/
 
-    if [[ $i -eq amdgpu ]] && [[ ! -z nodkms ]] ; then
-        echo "Will bypass dkms installation."
-        continue
+    if [[ $i == "amdgpu" ]] ; then
+        if [[ $nodkms -eq 1 ]] ; then
+            echo "Will bypass dkms installation."
+            continue
+        fi
     fi
 
     yum install $i -y
 
-    if [[ $i -eq rocm ]] ; then
+    if [[ $i == "rocm" ]] ; then
         echo "Creating llvm soft links..."
         sleep 3
         for j in clang ld.lld ; do
