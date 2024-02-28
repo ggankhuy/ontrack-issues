@@ -35,11 +35,16 @@ yum install epel-release epel-next-release -y
 yum config-manager --set-enabled crb
 yum install epel-release epel-next-release -y
 
+amdgpu-install --uninstall -y
+sudo yum remove rocm amdgpu -y
+
 for i in rocm amdgpu; do
     path=`find $i -name repodata`
     dir=`dirname $path`
     pushd $dir
     pwd
+    rm -rf /etc/yum.repos.d/$i*.repo
+
     createrepo .
     echo -ne "" > $i.repo
     echo "[$i]" >> $i.repo
@@ -47,10 +52,6 @@ for i in rocm amdgpu; do
     echo "baseurl=//`pwd`" >> $i.repo
     echo "enabled=1" >> $i.repo
     echo "gpgcheck=0" >> $i.repo
-
-    sudo yum remove $i -y
-    amdgpu-install --uninstall -y
-    rm -rf /etc/yum.repos.d/$i*.repo
 
     cp $i.repo /etc/yum.repos.d/
 
