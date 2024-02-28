@@ -1,9 +1,13 @@
 #set -x
+SINGLE_LINE=---------------------------------------------------------------------------------------------
 
 function usage()
 {
+    clear
+    echo $SINGLE_LINE
     echo "examples: $0  # install rocm + amdgpu"
     echo "examples: $0 --no-dkms # install rocm only, no dkms, usually for docker env. "
+    echo $SINGLE_LINE
 }
 
 function error() {
@@ -15,7 +19,7 @@ for var in "$@"
 do
     if [[ $DEBUG -eq 1 ]] ; then echo var: $var ; fi
 
-    if [[ $var == *"--help="* ]]  ; then
+    if [[ $var == *"--help"* ]]  ; then
         usage
         exit 0
     fi

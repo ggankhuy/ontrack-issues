@@ -18,7 +18,7 @@ for var in "$@"
 do
     if [[ $DEBUG -eq 1 ]] ; then echo var: $var ; fi
 
-    if [[ $var == *"--help="* ]]  ; then
+    if [[ $var == *"--help"* ]]  ; then
         usage
         exit 0
     fi
