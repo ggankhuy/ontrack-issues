@@ -1,4 +1,4 @@
-set -x
+#set -x
 yum install createrepo -y
 yum install epel-release epel-next-release -y 
 yum config-manager --set-enabled crb
