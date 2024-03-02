@@ -90,8 +90,8 @@ AMDGPU_DW_DIR=amdgpu
 mkdir $ROCM_DW_DIR $AMDGPU_DW_DIR
 
 if [[ -z $skip_download ]] ; then
-    #wget -r  -nv -np -A "*.rpm" -P $ROCM_DW_DIR $http_rocm
-    #if [[ $? -ne 0 ]] ; then error "Unable to download rocm packages. Check the URL." ; fi
+    wget -r  -nv -np -A "*.rpm" -P $ROCM_DW_DIR $http_rocm
+    if [[ $? -ne 0 ]] ; then error "Unable to download rocm packages. Check the URL." ; fi
     wget --mirror -L -np -nH -c -nv --cut-dirs=6 -A "*.rpm" -P $AMDGPU_DW_DIR $http_amdgpu
     if [[ $? -ne 0 ]] ; then error "Unable to download amdgpu packages. Check the URL." ; fi
 fi
