@@ -45,7 +45,7 @@ for i in rocm amdgpu; do
     pwd
     rm -rf /etc/yum.repos.d/$i*.repo
 
-    createrepo .
+    createrepo --simple-md-filenames .
     echo -ne "" > $i.repo
     echo "[$i]" >> $i.repo
     echo "name=$i repository" >> $i.repo
