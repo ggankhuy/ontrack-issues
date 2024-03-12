@@ -100,5 +100,5 @@ output_filename=$ROCM_DW_DIR-$rocm_build_no-$AMDGPU_DW_DIR-$amdgpu_build_no.tar.
 tar -cvf $output_filename.tar.gz $ROCM_DW_DIR $AMDGPU_DW_DIR rocm-local-install.sh
 if [[ $? -ne 0 ]] ; then error "Failed to create tar archive." ; fi
 
-tar -tf $output_filename.tar.gz | sudo tee $output_filename.log
+tar -tf $output_filename | sudo tee $output_filename.log
 echo "content of tar: $output_filename.log"
