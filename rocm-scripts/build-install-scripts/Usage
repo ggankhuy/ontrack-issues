@@ -1,0 +1,16 @@
+Usage:
+Use create-tarball.sh to fetch ROCm amd AMDGPU rpms and produce final tar.gz. Those will be fetched from artifactory either from mainline or rocm release branch pages:
+Below, 1st example is mainline, second one is rocm release branch which needs --ver nad --release parameters. 
+--no-download is used mainly for debugging purpose.
+
+function usage()
+{
+    echo "examples: $0 --rocm=13435 --amdgpu=1720129" 
+    echo "examples: $0 --release --ver=6.0 --rocm=91 --amdgpu=1704596"
+    echo "examples: $0 --rocm=13435 --amdgpu=1720129 --no-download"
+}
+
+Once tar.gz tarball created, tar -xvf to extract and invoke rocm-local-install.sh which will
+- create local repo
+- uninstall previous rocm installation using both amdgpu-install and yum remove.
+- install currently tarball-ed rocm/amdgpu packages. 
