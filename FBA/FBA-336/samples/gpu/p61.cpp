@@ -9,8 +9,8 @@
 // The trick is describe in p65 to use formula (N+127) / 128 for blocknumbers so that when block number starts from 1, it is 
 // (1+127) / 128.
 
-#define N 2048
-//#define N 536870912 
+#define N 536870912 
+#define N 4095
 #define MAX_THREAD_PER_BLOCK 1024
 
 __global__ void add( int * a, int * b, int * c ) {
@@ -55,22 +55,24 @@ int main (void) {
 	hipMemcpy(dev_c, c, N * sizeof(int), hipMemcpyHostToDevice);
 
     const unsigned threadsPerBlock = 256;
-    const unsigned blocks = (N+threadsPerBlock + 1) / threadsPerBlock;
+    //const unsigned blocks = (N+threadsPerBlock + 1) / threadsPerBlock;
+    const unsigned blocks = N/threadsPerBlock;
 
 	// invoke the kernel: 
 	// block count: (N+127)/128
 	// thread count: 128
     
     hipLaunchKernelGGL(add, blocks, threadsPerBlock, 0, 0, dev_a, dev_b, dev_c);
+    //add<<<blocks, threadsPerBlock>>>(dev_a, dev_b, dev_c);
     hipMemcpy(a, dev_a, N * sizeof(int), hipMemcpyDeviceToHost);
     hipMemcpy(b, dev_b, N * sizeof(int), hipMemcpyDeviceToHost);
     hipMemcpy(c, dev_c, N * sizeof(int), hipMemcpyDeviceToHost);
 
     stepSize = N / 20;
-    stepSize &=  ~(stepSize & 0xfffff);
+    stepSize &=  ~(stepSize & 0x0f);
     printf("stepSize: %u\n", stepSize);
 	for (int i = 0; i < N; i+=stepSize) {
-		printf("%d + %d = %d\n", a[i], b[i], c[i]);
+		printf("%d: %d + %d = %d\n", i, a[i], b[i], c[i]);
 	}
 
 	hipFree(dev_a);
@@ -79,8 +81,4 @@ int main (void) {
     free(a);
     free(b);
     free(c);
-
-	for (int i = 0; i < N; i+=stepSize) {
-		printf("%d + %d = %d\n", a[i], b[i], c[i]);
-	}
 }
