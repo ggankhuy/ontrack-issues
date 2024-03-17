@@ -1,6 +1,6 @@
 LOG_DIR=./log/
 OUT_DIR=./out/
-mkdir $LOG_DIR
+mkdir -p $LOG_DIR $OUT_DIR
 
 for i in $OUT_DIR/*.out; do
     readelf -d $i 2>&1 | tee  $LOG_DIR/needed.$i.log
