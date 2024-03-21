@@ -80,6 +80,8 @@ if [[ ! -z $release ]] && [[ -z $rocm_ver ]] ; then
     exit 1
 fi
 
+yum update -y ; yum install cmake git tree nano wget g++ python3-pip sudo -y
+
 echo "rocm: $rocm_build_no, amdgpu: $amdgpu_build_no, bypass download: $skip_download, release: $release, rocm version: $rocm_ver"
 
 http_amdgpu=http://mkmartifactory.amd.com/artifactory/amdgpu-rpm-local/rhel/9.2/builds/$amdgpu_build_no/x86_64/
