@@ -17,6 +17,9 @@ RDC_REPO_ROOT=/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc.ga/
 hipcc \
 /$RDC_REPO_ROOT/build/rdc_libs/bootstrap/librdc_bootstrap.so \
 $RDC_REPO_ROOT/build/rdc_libs/rdc/librdc.so -I$RDC_REPO_ROOT/include/ rdc-sample.cpp
+hipcc \
+/$RDC_REPO_ROOT/build/rdc_libs/bootstrap/librdc_bootstrap.so \
+$RDC_REPO_ROOT/build/rdc_libs/rdc/librdc.so -I$RDC_REPO_ROOT/include/ rdc-sample.cpp -ggdb -o a.dbg.out
 #hipcc -L/$RDC_REPO_ROOT/build/rdc_libs/bootstrap/:$RDC_REPO_ROOT/build/rdc_libs/rdc/ -I$RDC_REPO_ROOT/include/ -lrdc -lrdc_bootstrap rdc-sample.cpp
 
 
