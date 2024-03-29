@@ -1,4 +1,4 @@
-#set -x
+set -x
 SINGLE_LINE=---------------------------------------------------------------------------------------------
 DEBUG=0
 function usage()
@@ -46,14 +46,9 @@ for i in rocm amdgpu; do
     rm -rf /etc/yum.repos.d/$i*.repo
 
     createrepo --simple-md-filenames .
-    echo -ne "" > $i.repo
-    echo "[$i]" >> $i.repo
-    echo "name=$i repository" >> $i.repo
-    echo "baseurl=//`pwd`" >> $i.repo
-    echo "enabled=1" >> $i.repo
-    echo "gpgcheck=0" >> $i.repo
 
-    cp $i.repo /etc/yum.repos.d/
+    cp `find . -name $i.repo` /etc/yum.repos.d/
+    if [[ $? -ne 0 ]] ; then echo "Unable to find $i.repo after creating repo. Terminating..." ; exit 1 ; fi
 
     if [[ $i == "amdgpu" ]] ; then
         if [[ $nodkms -eq 1 ]] ; then
