@@ -1,6 +1,8 @@
 set -x 
 # cloned and modified from ../FBA-251/mini-reg/mini-test.sh
 
+OPTION_ENABLE_RVS=1
+
 if [[ ! -z $1 ]] ; then
     LOG_SUFFIX=$1
 fi
@@ -23,16 +25,19 @@ if [[ -z $RVS ]] || [[ -z $RVS_CONFIG ]]; then
 else
 
     for i in {1..50}; do
-        mkdir -p $LOG_FOLDER_RVS/$i
-        echo "Running RVS..."
-        dmesg --clear
-        $RVS -c $RVS_CONFIG 2>&1 | tee $LOG_FOLDER_RVS/$i/$i.rvs.run.log
-        dmesg  | tee $LOG_FOLDER_RVS/$i/$i.dmesg.log &
-        rocm-smi 2>&1 | tee $LOG_FOLDER_RVS/$i/$i.rocm-smi.0.log
-        sleep 10
-        rocm-smi 2>&1 | tee $LOG_FOLDER_RVS/$i/$i.rocm-smi.10.log
-        sleep 10
-        rocm-smi 2>&1 | tee $LOG_FOLDER_RVS/$i/$i.rocm-smi.20.log
+
+        if [[ $OPTION_ENABLE_RVS == 1 ]] ; then
+            mkdir -p $LOG_FOLDER_RVS/$i
+            echo "Running RVS..."
+            dmesg --clear
+            $RVS -c $RVS_CONFIG 2>&1 | tee $LOG_FOLDER_RVS/$i/$i.rvs.run.log
+            dmesg  | tee $LOG_FOLDER_RVS/$i/$i.dmesg.log &
+            rocm-smi 2>&1 | tee $LOG_FOLDER_RVS/$i/$i.rocm-smi.0.log
+            sleep 10
+            rocm-smi 2>&1 | tee $LOG_FOLDER_RVS/$i/$i.rocm-smi.10.log
+            sleep 10
+            rocm-smi 2>&1 | tee $LOG_FOLDER_RVS/$i/$i.rocm-smi.20.log
+        fi
     done
 fi
 
