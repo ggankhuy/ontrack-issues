@@ -3,7 +3,7 @@ set -x
 #LD_LIBRARY_PATH=/opt/rocm/lib/ hipcc -I/opt/rocm/include/rdc/ -lrdc -lrdc_bootstrap rdc-sample.cpp
 
 # for rdc built from source.
-RDC_REPO_ROOT=/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc.ga/
+RDC_REPO_ROOT=/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc/
 
 #echo -e "$RDC_REPO_ROOT/build/rdc_libs/bootstrap/" | sudo tee /etc/ld.so.conf.d/x86_64-librdc_client.conf
 #echo -e "$RDC_REPO_ROOT/build/rdc_libs/rdc/" | sudo tee -a /etc/ld.so.conf.d/x86_64-librdc_client.conf
