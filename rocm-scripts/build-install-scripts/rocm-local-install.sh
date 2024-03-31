@@ -1,4 +1,4 @@
-#set -x
+set -x
 SINGLE_LINE=---------------------------------------------------------------------------------------------
 DEBUG=0
 function usage()
@@ -39,7 +39,7 @@ amdgpu-install --uninstall -y
 sudo yum remove rocm amdgpu -y
 
 for i in rocm amdgpu; do
-    path=`find $i -name repodata`
+    path=`find $i -name repodata | head -1`
     dir=`dirname $path`
     pushd $dir
     pwd
