@@ -23,11 +23,11 @@ $RDC_REPO_ROOT/build/rdc_libs/rdc/librdc.so -I$RDC_REPO_ROOT/include/ rdc-sample
 #hipcc -L/$RDC_REPO_ROOT/build/rdc_libs/bootstrap/:$RDC_REPO_ROOT/build/rdc_libs/rdc/ -I$RDC_REPO_ROOT/include/ -lrdc -lrdc_bootstrap rdc-sample.cpp
 
 
-#/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc.ga/include/rdc/rdc.h
+#/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc/include/rdc/rdc.h
 
 #root@localhost:~/extdir/gg/git/fba/FBA/FBA-342.FBA-340# find ~/extdir/gg/git/codelab-scripts/ -name "librdc_bootstrap.so"
-#/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc.ga/build/rdc_libs/bootstrap/librdc_bootstrap.so
+#/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc/build/rdc_libs/bootstrap/librdc_bootstrap.so
 #root@localhost:~/extdir/gg/git/fba/FBA/FBA-342.FBA-340# find ~/extdir/gg/git/codelab-scripts/ -name "librdc.so"
-#/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc.ga/build/rdc_libs/rdc/librdc.so
+#/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc/build/rdc_libs/rdc/librdc.so
 #root@localhost:~/extdir/gg/git/fba/FBA/FBA-342.FBA-340# find ~/extdir/gg/git/codelab-scripts/ -name "librdc_rvs.so"
-#/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc.ga/build/rdc_libs/rdc_modules/rdc_rvs/librdc_rvs.so
+#/root/extdir/gg/git/codelab-scripts/rocm-scripts/rdc/rdc/build/rdc_libs/rdc_modules/rdc_rvs/librdc_rvs.so
