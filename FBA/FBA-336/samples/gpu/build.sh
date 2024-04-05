@@ -8,7 +8,7 @@ for param in "-fsanitize=address" "-fsanitize=address -shared-libsan" "-fsanitiz
     param_no_nonprtable=`echo $param_no_nonprtable | sed 's/\-/./g'`
     param_no_nonprtable=`echo $param_no_nonprtable | sed 's/=/./g'`
     echo param_no_nonprtable: $param_no_nonprtable
-    hipcc $param p61.cpp -o $OUT_DIR/p61"$param_no_nonprtable".out 2>&1 | tee $LOG_DIR/hipcc"$param_no_nonprtable".log
+    hipcc --offload-arch=gfx90a:xnack+ $param p61.cpp -o $OUT_DIR/p61"$param_no_nonprtable".out 2>&1 | tee $LOG_DIR/hipcc"$param_no_nonprtable".log
 done
 ls -l $LOG_DIR/hipcc.*.log
 ls -l $OUT_DIR/*.out
