@@ -19,15 +19,19 @@ for var in "$@"
 do
     if [[ $DEBUG -eq 1 ]] ; then echo var: $var ; fi
 
-    if [[ $var == *"--help"* ]]  ; then
-        usage
-        exit 0
-    fi
+    case "$var" in
+        *--help*)
+            usage
+            exit 0
+            ;;
 
-    if [[ $var == *"--no-dkms"* ]]  ; then
-        if [[ $DEBUG -eq 1 ]] ; then echo "Will bypass dkms installation usually for docker env..." ; fi
-         nodkms=1
-    fi
+        *--no-dkms*(
+            if [[ $DEBUG -eq 1 ]] ; then echo "Will bypass dkms installation usually for docker env..." ; fi
+            nodkms=1
+            ;;
+        *)
+            echo "Error: unknown parameter: $var" ; exit 1
+    esac
 done
 
 yum update -y ; yum install cmake git tree nano wget g++ python3-pip sudo -y
