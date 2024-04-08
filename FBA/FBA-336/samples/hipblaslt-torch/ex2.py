@@ -3,12 +3,12 @@ import torch
 
 '''
 workingdims without T.
-t1=torch.randn(2304, 8, 16384)
-t2=torch.randn(2304, 16384, 8)
+t1=torch.randn([2304, 8, 16384], dtype=torch.float32)
+t2=torch.randn([2304, 16384, 8], dtype=torch.float32)
 '''
 
-t1=torch.randn(16384, 8, 2304)
-t2=torch.randn(2304, 16384, 8)
+t1=torch.randn([16384, 8, 2304], dtype=torch.float32)
+t2=torch.randn([2304, 16384, 8], dtype=torch.float32)
 
 print(t1.shape)
 print(t2.shape)
