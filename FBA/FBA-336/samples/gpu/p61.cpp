@@ -15,8 +15,8 @@
 
 __global__ void add( int * a, int * b, int * c ) {
     int tid = hipThreadIdx_x + hipBlockIdx_x * hipBlockDim_x ;
-    if (tid < N) 
-        c[tid] = a[tid] + b[tid];
+//    if (tid < N) 
+    c[tid] = a[tid] + b[tid];
 }    
 
 int main (void) {

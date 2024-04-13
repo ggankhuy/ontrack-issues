@@ -19,38 +19,38 @@ for var in "$@"
 do
     if [[ $DEBUG -eq 1 ]] ; then echo var: $var ; fi
 
-    if [[ $var == *"--help"* ]]  ; then
-        usage
-        exit 0
-    fi
+    case "$var" in 
+        *--help*)
+            usage
+            exit 0
+            ;;
 
-    if [[ $var == *"--rocm="* ]]  ; then
-        rocm_build_no=`echo $var | cut -d '=' -f2`
-    fi
-
-    if [[ $var == *"--amdgpu="* ]]  ; then
-        amdgpu_build_no=`echo $var | cut -d '=' -f2`
-    fi
-
-    if [[ $var == *"--downloadno"* ]]  ; then
-        if [[ $DEBUG -eq 1 ]] ; then echo "Setting no download flag..." ; fi
-        skip_download="1"
-    fi
-
-    if [[ $var == *"--install"* ]]  ; then
-        if [[ $DEBUG -eq 1 ]] ; then echo "Will continue rocm install after creating tarball..." ; fi
-        continue_install="1"
-    fi
-
-    if [[ $var == *"--release"* ]]  ; then
-        if [[ $DEBUG -eq 1 ]] ; then eecho "Setting release..." ; fi
-        release=1
-    fi
-
-    if [[ $var == *"--ver="* ]]  ; then
-        if [[ $DEBUG -eq 1 ]] ; then eecho "Setting rocm version..." ; fi
-        rocm_ver=`echo $var | cut -d '=' -f2`
-    fi
+        *--rocm=")
+            rocm_build_no=`echo $var | cut -d '=' -f2`
+            ;;
+        *--amdgpu=")
+            amdgpu_build_no=`echo $var | cut -d '=' -f2`
+            ;;
+        *--downloadno")
+            if [[ $DEBUG -eq 1 ]] ; then echo "Setting no download flag..." ; fi
+            skip_download="1"
+            ;;
+        *--install")
+            if [[ $DEBUG -eq 1 ]] ; then echo "Will continue rocm install after creating tarball..." ; fi
+            continue_install="1"
+            ;;
+        *--release")
+            if [[ $DEBUG -eq 1 ]] ; then eecho "Setting release..." ; fi
+            release=1
+            ;;
+        *--ver=")
+            if [[ $DEBUG -eq 1 ]] ; then eecho "Setting rocm version..." ; fi
+            rocm_ver=`echo $var | cut -d '=' -f2`
+            ;;
+        *)
+            echo "Error: unknown parameter: $var" ; exit 1
+            ;;
+    esac
 done
 
 if [[ -z $amdgpu_build_no ]] ; then
