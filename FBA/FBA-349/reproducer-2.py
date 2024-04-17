@@ -15,8 +15,8 @@ try:
     else:
         for device in devices:
             ecc_error_count = amdsmi.amdsmi_get_gpu_total_ecc_count(device)
-            print(ecc_error_count["correctable_count"])
-            print(ecc_error_count["uncorrectable_count"])
+            print("corr count: ", ecc_error_count["correctable_count"])
+            print("uncorr count: ", ecc_error_count["uncorrectable_count"])
 except Exception as e:
     print(e)
 
