@@ -17,6 +17,9 @@ try:
             ecc_error_count = amdsmi.amdsmi_get_gpu_total_ecc_count(device)
             print("corr count: ", ecc_error_count["correctable_count"])
             print("uncorr count: ", ecc_error_count["uncorrectable_count"])
+            xgmi_status = amdsmi.amdsmi_gpu_xgmi_error_status(device)
+            print("xgmi status: ", xgmi_status)
+
 except Exception as e:
     print(e)
 

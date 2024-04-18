@@ -1,5 +1,6 @@
 import sys
 
+sys.path.append('/opt/rocm-6.2.0-13770/share/amd_smi/')
 sys.path.append('/opt/rocm/share/amd_smi/')
 for i in sys.path:
     print(i)

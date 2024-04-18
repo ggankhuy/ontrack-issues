@@ -25,7 +25,7 @@ do
             exit 0
             ;;
 
-        *--no-dkms*(
+        *--no-dkms*)
             if [[ $DEBUG -eq 1 ]] ; then echo "Will bypass dkms installation usually for docker env..." ; fi
             nodkms=1
             ;;
