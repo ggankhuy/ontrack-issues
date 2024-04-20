@@ -15,9 +15,6 @@ except Exception as msg:
     print("Exception: Make sure workload is running on gpu otherwise processes[0] will None and cause this.")
     print(msg)
 
-
-quit(0)
-'''
 try:
     devices = amdsmi.amdsmi_get_processor_handles()
     if not devices:
@@ -31,4 +28,4 @@ try:
             print("xgmi stat: (amdsmi.amdsmi_gpu_xgmi_error_status):        ", xgmi_stat)
 except Exception as msg:
     print(msg)
-'''
+
