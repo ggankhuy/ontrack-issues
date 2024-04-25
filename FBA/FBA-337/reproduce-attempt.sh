@@ -3,7 +3,7 @@ set -x
 
 OPTION_ENABLE_RVS=1
 OPTION_ENABLE_RCCL_TESTS=1
-
+ITERATIONS=3
 if [[ ! -z $1 ]] ; then
     LOG_SUFFIX=$1
 fi
@@ -16,7 +16,7 @@ fi
 
 echo "LOG_FOLDER: $LOG_FOLDER"
 RVS=/opt/rocm/bin/rvs
-ALL_REDUCE=/extdir/gg/git/rccl-tests/build/all_reduce
+ALL_REDUCE=~/extdir/gg/git/rccl-tests/build/all_reduce
 RVS_CONFIG_MI300X=/opt/rocm/share/rocm-validation-suite/conf/MI300X/gst_stress.conf
 RVS_CONFIG=$RVS_CONFIG_MI300X
 LOG_FOLDER_RVS=$LOG_FOLDER/rvs/
@@ -27,7 +27,7 @@ if [[ -z $RVS ]] || [[ -z $RVS_CONFIG ]]; then
     echo "Unable to find either rvs or rvs config. RVS: $RVS, RVS_CONFIG: $RVS_CONFIG"
 else
 
-    for i in {1..50}; do
+    for i in {1..2}; do
 
         if [[ $OPTION_ENABLE_RCCL_TESTS == 1 ]] ; then
             if [[ ! -f $ALL_REDUCE ]] ; then echo "Can not find all reduce at $ALL_REDUCE." ; exit 1 ; fi
@@ -41,7 +41,7 @@ else
             rocm-smi 2>&1 | tee $LOG_FOLDER_RCCL_TESTS/$i/$i.rocm-smi.10.log
             sleep 10
             rocm-smi 2>&1 | tee $LOG_FOLDER_RCCL_TESTS/$i/$i.rocm-smi.20.log
-            
+        fi            
         if [[ $OPTION_ENABLE_RVS == 1 ]] ; then
             if [[ ! -f $RVS ]] ; then echo "Can not find rvs at $RVS." ; exit 1 ; fi
             mkdir -p $LOG_FOLDER_RVS/$i
