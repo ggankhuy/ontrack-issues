@@ -26,13 +26,13 @@ do
     arr_durations_super_10000=`egrep -irn $i $FILENAME -A 1| grep -i "dur.*[0-9][0-9][0-9][0-9][0-9]" | wc -l`
     iter=0
 
-    if [[ $DEBUG = 0 ]] ; then "echo arr_durations: $arr_durations" ; fi
+    if [[ $DEBUG = 1 ]] ; then "echo arr_durations: $arr_durations" ; fi
 
     for j in $arr_durations; do
 
-        if [[ $DEBUG = 0 ]] ; then echo "iter: $iter" ; fi
-        if [[ $DEBUG = 0 ]] ; then echo "Processing $j..." ; fi
-        if [[ $DEBUG = 0 ]] ; then echo "Sum: $arr_durations_sum" ; fi
+        if [[ $DEBUG = 1 ]] ; then echo "iter: $iter" ; fi
+        if [[ $DEBUG = 1 ]] ; then echo "Processing $j..." ; fi
+        if [[ $DEBUG = 1 ]] ; then echo "Sum: $arr_durations_sum" ; fi
         arr_durations_sum=$((arr_durations_sum+j))
 
         if [[ $j -gt $arr_durations_max ]] ; then 
