@@ -25,25 +25,22 @@ do
             exit 0
             ;;
 
-        *--rocm=")
+        "*--rocm=")
             rocm_build_no=`echo $var | cut -d '=' -f2`
             ;;
-        *--amdgpu=")
+        "*--amdgpu=")
             amdgpu_build_no=`echo $var | cut -d '=' -f2`
             ;;
-        *--downloadno")
-            if [[ $DEBUG -eq 1 ]] ; then echo "Setting no download flag..." ; fi
-            skip_download="1"
-            ;;
-        *--install")
+
+        "*--install")
             if [[ $DEBUG -eq 1 ]] ; then echo "Will continue rocm install after creating tarball..." ; fi
             continue_install="1"
             ;;
-        *--release")
+        "*--release")
             if [[ $DEBUG -eq 1 ]] ; then eecho "Setting release..." ; fi
             release=1
             ;;
-        *--ver=")
+        "*--ver=")
             if [[ $DEBUG -eq 1 ]] ; then eecho "Setting rocm version..." ; fi
             rocm_ver=`echo $var | cut -d '=' -f2`
             ;;
