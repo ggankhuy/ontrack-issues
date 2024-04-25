@@ -1,0 +1,3 @@
+hipcc ipc.hip
+
+

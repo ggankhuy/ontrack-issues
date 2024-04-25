@@ -1,0 +1,5 @@
+Usage:
+Use tar -xvf to extract and invoke rocm-local-install.sh which will:
+- create local repo
+- uninstall previous rocm installation using both amdgpu-install and yum remove.
+- install currently tarball-ed rocm/amdgpu packages. 

@@ -1,0 +1,52 @@
+=================================================================
+==60==ERROR: AddressSanitizer: heap-use-after-free on address 0x614000000044 at pc 0x5562ae78759f bp 0x7fff1a50f830 sp 0x7fff1a50f828
+READ of size 4 at 0x614000000044 thread T0
+    #0 0x5562ae78759e  (/root/extdir/gg/git/fba/FBA/FBA-336/samples/cpu/a.out+0x15159e)
+    #1 0x7f0ba168058f  (/lib64/libc.so.6+0x2958f) (BuildId: ccdff51eac58ae2b513a768e1920cb6f356a2fea)
+    #2 0x7f0ba168063f  (/lib64/libc.so.6+0x2963f) (BuildId: ccdff51eac58ae2b513a768e1920cb6f356a2fea)
+    #3 0x5562ae654384  (/root/extdir/gg/git/fba/FBA/FBA-336/samples/cpu/a.out+0x1e384)
+
+0x614000000044 is located 4 bytes inside of 400-byte region [0x614000000040,0x6140000001d0)
+freed by thread T0 here:
+    #0 0x5562ae7853d7  (/root/extdir/gg/git/fba/FBA/FBA-336/samples/cpu/a.out+0x14f3d7)
+    #1 0x5562ae78756d  (/root/extdir/gg/git/fba/FBA/FBA-336/samples/cpu/a.out+0x15156d)
+    #2 0x7f0ba168058f  (/lib64/libc.so.6+0x2958f) (BuildId: ccdff51eac58ae2b513a768e1920cb6f356a2fea)
+
+previously allocated by thread T0 here:
+    #0 0x5562ae784a57  (/root/extdir/gg/git/fba/FBA/FBA-336/samples/cpu/a.out+0x14ea57)
+    #1 0x5562ae787562  (/root/extdir/gg/git/fba/FBA/FBA-336/samples/cpu/a.out+0x151562)
+    #2 0x7f0ba168058f  (/lib64/libc.so.6+0x2958f) (BuildId: ccdff51eac58ae2b513a768e1920cb6f356a2fea)
+
+SUMMARY: AddressSanitizer: heap-use-after-free (/root/extdir/gg/git/fba/FBA/FBA-336/samples/cpu/a.out+0x15159e) 
+Shadow bytes around the buggy address:
+  0x613ffffffd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x613ffffffe00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x613ffffffe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x613fffffff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x613fffffff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x614000000000: fa fa fa fa fa fa fa fa[fd]fd fd fd fd fd fd fd
+  0x614000000080: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x614000000100: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x614000000180: fd fd fd fd fd fd fd fd fd fd fa fa fa fa fa fa
+  0x614000000200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x614000000280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==60==ABORTING
