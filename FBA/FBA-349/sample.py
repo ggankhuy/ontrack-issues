@@ -10,8 +10,6 @@ amdsmi.amdsmi_init()
 devices = amdsmi.amdsmi_get_processor_handles()
 
 try:
-    devices = amdsmi.amdsmi_get_processor_handles()
-
     print("--- test: amdsmi.amdsmi_get_process_info.")
     processes = amdsmi.amdsmi_get_gpu_process_list(devices[0])
     process_info = amdsmi.amdsmi_get_gpu_process_info(devices[0], processes[0])
@@ -23,7 +21,8 @@ except Exception as msg:
 fields=[\
     ['average_socket_power','gfx_voltage','power_limit'],\
     ['vram_used','vram_total'],\
-    ['correctable_count','uncorrectable_count']\
+    ['correctable_count','uncorrectable_count'],\
+    []\
     ]
 
 idx=0
@@ -39,9 +38,15 @@ for i in [\
         for device in devices:
             result=i(device)
 
-            for j in fields[idx]:
-                print(j, ": ", result[j])
+            if fields[idx]:
+                for j in fields[idx]:
+                    print(j, ": ", result[j])
+            else:
+                print("!! no fields.")
+                print(j, ": ", result)
+               
     except Exception as msg:
+        print("Error:")
         print(i)
     idx = idx + 1
 
