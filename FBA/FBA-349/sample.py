@@ -6,6 +6,7 @@ for i in sys.path:
 
 import amdsmi
 amdsmi.amdsmi_init()
+print("test: amdsmi.amdsmi_get_processor_handles.")
 try:
     devices = amdsmi.amdsmi_get_processor_handles()
     processes = amdsmi.amdsmi_get_gpu_process_list(devices[0])
@@ -15,6 +16,7 @@ except Exception as msg:
     print("Exception: Make sure workload is running on gpu otherwise processes[0] will None and cause this.")
     print(msg)
 
+print("test: amdsmi.amdsmi_get_gpu_total_ecc_count/xgmistat")
 try:
     devices = amdsmi.amdsmi_get_processor_handles()
     if not devices:
