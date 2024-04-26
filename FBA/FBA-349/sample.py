@@ -47,6 +47,6 @@ for i in [\
                
     except Exception as msg:
         print("Error:")
-        print(i)
+        print(msg)
     idx = idx + 1
 
