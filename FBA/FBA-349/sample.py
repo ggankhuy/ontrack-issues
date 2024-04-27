@@ -9,19 +9,21 @@ amdsmi.amdsmi_init()
 
 devices = amdsmi.amdsmi_get_processor_handles()
 
-try:
-    print("--- test: amdsmi.amdsmi_get_process_info.")
-    processes = amdsmi.amdsmi_get_gpu_process_list(devices[0])
-    process_info = amdsmi.amdsmi_get_gpu_process_info(devices[0], processes[0])
-    print(process_info)
+print("--- test: amdsmi.amdsmi_get_process_info.")
+for device in devices:
+    try:
+        processes = amdsmi.amdsmi_get_gpu_process_list(device)
+        process_info = amdsmi.amdsmi_get_gpu_process_info(device, processes[0])
+        print(process_info)
 
-except Exception as msg:
-    print(msg)
+    except Exception as msg:
+        print(msg)
 
 fields=[\
     ['average_socket_power','gfx_voltage','power_limit'],\
     ['vram_used','vram_total'],\
     ['correctable_count','uncorrectable_count'],\
+    ['gfx_activity','umc_activity','mm_activity'],\
     []\
     ]
 
@@ -30,6 +32,7 @@ for i in [\
     amdsmi.amdsmi_get_power_info, \
     amdsmi.amdsmi_get_gpu_vram_usage, \
     amdsmi.amdsmi_get_gpu_total_ecc_count,\
+    amdsmi.amdsmi_get_gpu_activity, \
     amdsmi.amdsmi_gpu_xgmi_error_status\
     ]:
 
