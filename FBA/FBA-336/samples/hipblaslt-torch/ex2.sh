@@ -1,0 +1,1 @@
+export DISABLE_ADDMM_CUDA_LT=0; HIPBLASLT_LOG_LEVEL=5  python3 ex2.py
