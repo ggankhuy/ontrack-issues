@@ -92,5 +92,5 @@ fi
 echo $LD_LIBRARY_PATH
 chmod 755 *sh
 echo "Use following cmd to run:"
-echo 'LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/miniconda3/envs/$CONDA_ENV_NAME/lib:$HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib:$MAGMA_HOME/lib" ./run_llama2_70b.sh'
+echo 'LD_LIBRARY_PATH=$HOME/miniconda3/envs/$CONDA_ENV_NAME/lib:$HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib:$MAGMA_HOME/lib ./run_llama2_70b.sh'
 popd
