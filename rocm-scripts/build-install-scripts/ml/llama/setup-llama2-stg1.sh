@@ -16,7 +16,7 @@ bash ./miniconda.sh -b -u -p /$MINICONDA_SRC_DIR
 rm -rf ./miniconda.sh
 
 if [[ -z `cat ~/.bashrc | egrep "export.*$MINICONDA_SRC_DIR/bin"` ]] ; then
-    echo "export PATH=$PATH:/$MINICONDA_SRC_DIR/bin" | sudo tee ~/.bashrc
+    echo "export PATH=$PATH:/$MINICONDA_SRC_DIR/bin" | sudo tee -a ~/.bashrc
 fi
 ln -s $MINICONDA_SRC_DIR /$HOME/
 
