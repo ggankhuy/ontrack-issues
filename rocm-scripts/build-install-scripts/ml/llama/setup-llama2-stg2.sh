@@ -38,7 +38,7 @@ ls -l
 
 pushd $LLAMA_PREREQ_PKGS
 mkdir log
-bash install.sh 2>&1 | tee log/install.log
+bash install.sh 2>&1 | sudo tee log/install.log
 popd
 
 git clone https://bitbucket.org/icl/magma.git
@@ -50,16 +50,16 @@ ROCM_PATH=/opt/rocm-6.2.0.13611
 
 ls -l $BASHRC
 if [[ -z `cat $BASHRC | grep "export.*MAGMA_HOME"` ]] ; then
-    echo "export MAGMA_HOME=$PWD" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
+    echo "export MAGMA_HOME=$PWD" | sudo tee -a $BASHRC | sudo tee -a $BASHRC_EXPORT
 fi
 
 if [[  -z `cat $BASHRC | grep "export.*MKLROOT"` ]] ; then
-    echo "export MKLROOT=$HOME/miniconda3/envs/$CONDA_ENV_NAME" |  tee -a $BASHRC | tee -a $BASHRC_EXPORT
+    echo "export MKLROOT=$HOME/miniconda3/envs/$CONDA_ENV_NAME" |  sudo tee -a $BASHRC | sudo tee -a $BASHRC_EXPORT
 fi
 
 if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
     export ROCM_PATH=$ROCM_PATH
-    echo "export ROCM_PATH=$ROCM_PATH" |  tee -a $BASHRC | tee -a $BASHRC_EXPORT
+    echo "export ROCM_PATH=$ROCM_PATH" |  sudo tee -a $BASHRC | sudo tee -a $BASHRC_EXPORT
 fi
 
 cp make.inc-examples/make.inc.hip-gcc-mkl make.inc
@@ -87,7 +87,7 @@ if [[ -z `cat $BASHRC | grep "export.*LD_LIBRARY_PATH.*mkl.*$MAGMA_HOME"` ]] ; t
     echo 'export PATH="$PATH:\
         $HOME/miniconda3/envs/$CONDA_ENV_NAME/lib:\
         $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib:\
-        $MAGMA_HOME/lib"' |  tee -a $BASHRC | tee -a $BASHRC_EXPORT
+        $MAGMA_HOME/lib"' |  sudo tee -a $BASHRC | sudo tee -a $BASHRC_EXPORT
 fi
 echo $LD_LIBRARY_PATH
 chmod 755 *sh
