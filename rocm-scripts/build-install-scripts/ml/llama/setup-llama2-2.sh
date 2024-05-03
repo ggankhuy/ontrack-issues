@@ -13,6 +13,10 @@ for i in gfortran ; do
 done
 CONDA_ENV_NAME="llama2"
 
+if [[ -f $LLAMA_PREREQ_PKGS.tar ]] ; then 
+    echo "$LLAMA_PREREQ_PKGS.tar does not exist." 
+    exit 1
+fi
 tar -xvf  $LLAMA_PREREQ_PKGS.tar
 pushd $LLAMA_PREREQ_PKGS
     for i in *tar ; do 
