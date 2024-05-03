@@ -8,7 +8,7 @@ MINICONDA_SRC_DIR=/home/miniconda3
 MINICONDA_DIR=/$HOME/miniconda3
 LLAMA_PREREQ_PKGS=20240502_quanta_llamav2
 CONDA=/$HOME/miniconda3/bin/conda
-for i in gfortran ; do 
+for i in gfortran libomp; do 
     yum install $i -y ; 
 done
 CONDA_ENV_NAME="llama2"
@@ -46,6 +46,7 @@ pushd magma
 
 BASHRC=~/.bashrc
 BASHRC_EXPORT=./export.md
+ROCM_PATH=/opt/rocm-6.2.0.13611
 
 ls -l $BASHRC
 if [[ -z `cat $BASHRC | grep "export.*MAGMA_HOME"` ]] ; then
@@ -57,7 +58,8 @@ if [[  -z `cat $BASHRC | grep "export.*MKLROOT"` ]] ; then
 fi
 
 if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
-    "export ROCM_PATH=/opt/rocm-6.2.0-13611" |  tee -a $BASHRC | tee -a $BASHRC_EXPORT
+    export ROCM_PATH=$ROCM_PATH
+    echo "export ROCM_PATH=$ROCM_PATH" |  tee -a $BASHRC | tee -a $BASHRC_EXPORT
 fi
 
 cp make.inc-examples/make.inc.hip-gcc-mkl make.inc
