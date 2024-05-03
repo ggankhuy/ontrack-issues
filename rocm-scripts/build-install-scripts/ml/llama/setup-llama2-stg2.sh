@@ -12,6 +12,7 @@ for i in gfortran libomp; do
     yum install $i -y ; 
 done
 CONDA_ENV_NAME="llama2"
+SOFT_LINK=0
 
 if [[ ! -f $LLAMA_PREREQ_PKGS.tar ]] ; then 
     echo "$LLAMA_PREREQ_PKGS.tar does not exist." 
@@ -72,25 +73,33 @@ HIPDIR=$ROCM_PATH GPU_TARGET=gfx942 make lib -j 2>&1 | tee make.magma.log
 popd
 
 pushd $LLAMA_PREREQ_PKGS
-ln -s \
-$HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_intel_lp64.so.2 \
-$HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_intel_lp64.so.1
-ln -s \
-$HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.2 \
-$HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.1
 
-ln -s $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.2 \
-$HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.1 
-
-ls -l $BASHRC
-if [[ -z `cat $BASHRC | grep "export.*LD_LIBRARY_PATH.*mkl.*$MAGMA_HOME"` ]] ; then
-    echo 'export PATH="$PATH:\
-        $HOME/miniconda3/envs/$CONDA_ENV_NAME/lib:\
-        $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib:\
-        $MAGMA_HOME/lib"' |  sudo tee -a $BASHRC | sudo tee -a $BASHRC_EXPORT
+if [[ $SOFT_LINK == 1 ]] ; then
+    ln -s \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_intel_lp64.so.2 \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_intel_lp64.so.1
+    ln -s \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.2 \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.1
+    ln -s $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.2 \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.1 
+else
+    cp \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_intel_lp64.so.2 \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_intel_lp64.so.1
+    cp \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.2 \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.1
+    cp \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.2 \
+    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.1 
 fi
-echo $LD_LIBRARY_PATH
+
 chmod 755 *sh
 echo "Use following cmd to run:"
 echo 'LD_LIBRARY_PATH=$HOME/miniconda3/envs/$CONDA_ENV_NAME/lib:$HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib:$MAGMA_HOME/lib ./run_llama2_70b.sh'
 popd
+
+echo "$HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib" | tee /etc/ld.so.conf.d/mkl.conf
+echo "$MAGMA_HOME/lib" | tee /etc/ld.so.conf.d/magma.conf
+ls -l /etc/ld.so.conf.d/
