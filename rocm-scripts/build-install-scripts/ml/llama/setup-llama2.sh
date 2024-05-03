@@ -3,10 +3,11 @@
 
 # changing the actual instalaltion folder to /home/miniconda3 because centos by default alloc-s 
 # only 70gb during installation.
-
+set -x 
 MINICONDA_SRC_DIR=/home/miniconda3
 MINICONDA_DIR=/$HOME/miniconda3
-LLAMA_PREREQ_PKGS=20240502_quanta_llamav2.tar
+LLAMA_PREREQ_PKGS=20240502_quanta_llamav2
+
 mkdir -p $MINICONDA_SRC_DIR
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ./miniconda.sh
 chmod 755 ./miniconda.sh
@@ -15,10 +16,22 @@ rm -rf ./miniconda.sh
 echo "export PATH=$PATH:/$MINICONDA_SRC_DIR/bin" >> ~/.bashrc
 ln -s $MINICONDA_SRC_DIR /$HOME/
 
-
 CONDA_ENV_NAME="llama2"
 conda create --name  $CONDA_ENV_NAME python==3.9
 conda activate $CONDA_ENV_NAME
+
+exit 0
+
+tar -xvf  $LLAMA_PREREQ_PKGS.tar
+pushd $LLAMA_PREREQ_PKGS
+    for i in *tar ; do 
+        dirname=`echo $i | awk '{print $1}' FS=. `
+        mkdir $dirname ; pushd $dirname
+        ln -s ../$i .
+        tar -xvf $i 
+        pip3 install *.whl
+    done
+popd
 
 conda install mkl-service
 pip3 install mkl
