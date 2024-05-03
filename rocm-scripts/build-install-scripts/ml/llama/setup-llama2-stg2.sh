@@ -52,10 +52,12 @@ ROCM_PATH=/opt/rocm-6.2.0-13611
 ls -l $BASHRC
 if [[ -z `cat $BASHRC | grep "export.*MAGMA_HOME"` ]] ; then
     echo "export MAGMA_HOME=$PWD" | sudo tee -a $BASHRC | sudo tee -a $BASHRC_EXPORT
+    export MAGMA_HOME=$PWD
 fi
 
 if [[  -z `cat $BASHRC | grep "export.*MKLROOT"` ]] ; then
     echo "export MKLROOT=$HOME/miniconda3/envs/$CONDA_ENV_NAME" |  sudo tee -a $BASHRC | sudo tee -a $BASHRC_EXPORT
+    export MKLROOT=$HOME/miniconda3/envs/$CONDA_ENV_NAME
 fi
 
 if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
