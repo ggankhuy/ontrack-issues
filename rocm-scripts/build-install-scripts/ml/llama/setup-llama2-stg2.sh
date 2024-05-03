@@ -75,24 +75,18 @@ popd
 pushd $LLAMA_PREREQ_PKGS
 
 if [[ $SOFT_LINK == 1 ]] ; then
-    ln -s \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_intel_lp64.so.2 \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_intel_lp64.so.1
-    ln -s \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.2 \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.1
-    ln -s $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.2 \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.1 
+    for i in  libmkl_intel_lp64 libmkl_gnu_thread libmkl_core; do
+        ln -s \
+        $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
+        $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
+    done
 else
-    cp \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_intel_lp64.so.2 \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_intel_lp64.so.1
-    cp \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.2 \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.1
-    cp \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.2 \
-    $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.1 
+    for i in  libmkl_intel_lp64 libmkl_gnu_thread libmkl_core; do
+        rm -rf $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
+        cp \
+        $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
+        $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
+    done
 fi
 
 chmod 755 *sh
