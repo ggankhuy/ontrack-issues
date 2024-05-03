@@ -8,7 +8,9 @@ MINICONDA_SRC_DIR=/home/miniconda3
 MINICONDA_DIR=/$HOME/miniconda3
 LLAMA_PREREQ_PKGS=20240502_quanta_llamav2
 CONDA=/$HOME/miniconda3/bin/conda
-
+for i in gfortran ; do 
+    yum install $i -y ; 
+done
 CONDA_ENV_NAME="llama2"
 
 tar -xvf  $LLAMA_PREREQ_PKGS.tar
@@ -38,16 +40,20 @@ popd
 git clone https://bitbucket.org/icl/magma.git
 pushd magma
 
-if [[ -z `cat ~/.bashrc | grep "export.*MAGMA_HOME"` ]] ; then
-    export MAGMA_HOME=$PWD | tee -a ~/.bashrc
+BASHRC=~/.bashrc
+BASHRC_EXPORT=./export.md
+
+ls -l $BASHRC
+if [[ -z `cat $BASHRC | grep "export.*MAGMA_HOME"` ]] ; then
+    echo "export MAGMA_HOME=$PWD" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
 fi
 
-if [[  -z `cat ~/.bashrc | grep "export.*MKLROOT"` ]] ; then
-    export MKLROOT=$HOME/miniconda3/envs/$CONDA_ENV_NAME | tee -a ~/.bashrc
+if [[  -z `cat $BASHRC | grep "export.*MKLROOT"` ]] ; then
+    echo "export MKLROOT=$HOME/miniconda3/envs/$CONDA_ENV_NAME" |  tee -a $BASHRC | tee -a $BASHRC_EXPORT
 fi
 
-if [[ -z `cat ~/.bashrc | grep "export.*ROCM_PATH"` ]] ; then
-    export ROCM_PATH=/opt/rocm-6.2.0-13611 | tee -a ~/.bashrc
+if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
+    "export ROCM_PATH=/opt/rocm-6.2.0-13611" |  tee -a $BASHRC | tee -a $BASHRC_EXPORT
 fi
 
 cp make.inc-examples/make.inc.hip-gcc-mkl make.inc
@@ -70,11 +76,12 @@ $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_gnu_thread.so.1
 ln -s $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.2 \
 $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/libmkl_core.so.1 
 
-if [[ -z `cat ~/.bashrc | grep "export.*LD_LIBRARY_PATH.*mkl.*$MAGMA_HOME"` ]] ; then
-    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:\
+ls -l $BASHRC
+if [[ -z `cat $BASHRC | grep "export.*LD_LIBRARY_PATH.*mkl.*$MAGMA_HOME"` ]] ; then
+    echo 'export PATH="$PATH:\
         $HOME/miniconda3/envs/$CONDA_ENV_NAME/lib:\
         $HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib:\
-        $MAGMA_HOME/lib" | tee -a ~/.bashrc
+        $MAGMA_HOME/lib"' |  tee -a $BASHRC | tee -a $BASHRC_EXPORT
 fi
 echo $LD_LIBRARY_PATH
 chmod 755 *sh
