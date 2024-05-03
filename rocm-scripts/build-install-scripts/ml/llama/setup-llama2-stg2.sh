@@ -46,7 +46,7 @@ pushd magma
 
 BASHRC=~/.bashrc
 BASHRC_EXPORT=./export.md
-ROCM_PATH=/opt/rocm-6.2.0.13611
+ROCM_PATH=/opt/rocm-6.2.0-13611
 
 ls -l $BASHRC
 if [[ -z `cat $BASHRC | grep "export.*MAGMA_HOME"` ]] ; then
@@ -68,7 +68,7 @@ echo "LIB += -Wl,--enable-new-dtags -Wl,--rpath,\$(ROCM_PATH)/lib -Wl,--rpath,\$
 echo "DEVCCFLAGS += --amdgpu-target=gfx942" >> make.inc
 # build MAGMA
 make -f make.gen.hipMAGMA -j
-HIPDIR=$ROCM_PATH GPU_TARGET=gfx942 make lib -j
+HIPDIR=$ROCM_PATH GPU_TARGET=gfx942 make lib -j 2>&1 | tee make.magma.log
 popd
 
 pushd $LLAMA_PREREQ_PKGS
