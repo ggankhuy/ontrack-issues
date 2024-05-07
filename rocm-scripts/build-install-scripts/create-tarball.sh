@@ -23,32 +23,32 @@ do
     if [[ $DEBUG -eq 1 ]] ; then echo var: $var ; fi
 
     case "$var" in 
-        *--help*)
+        --help)
             usage
             exit 0
             ;;
-        *--src)
+        --src)
             src=1
             ;;
-        *--rocm=)
+        --rocm=*)
             rocm_build_no=`echo $var | cut -d '=' -f2`
             ;;
-        *--amdgpu=)
+        --amdgpu=*)
             amdgpu_build_no=`echo $var | cut -d '=' -f2`
             ;;
-        *--downloadno)
+        --downloadno)
             if [[ $DEBUG -eq 1 ]] ; then echo "Setting no download flag..." ; fi
             skip_download="1"
             ;;
-        *--install)
+        --install)
             if [[ $DEBUG -eq 1 ]] ; then echo "Will continue rocm install after creating tarball..." ; fi
             continue_install="1"
             ;;
-        *--release)
+        --release)
             if [[ $DEBUG -eq 1 ]] ; then eecho "Setting release..." ; fi
             release=1
             ;;
-        *--ver=)
+        --ver=*)
             if [[ $DEBUG -eq 1 ]] ; then eecho "Setting rocm version..." ; fi
             rocm_ver=`echo $var | cut -d '=' -f2`
             ;;
@@ -117,17 +117,17 @@ if [[ $src == 1 ]] ; then
         revid=`cat manifest.xml  | grep amd-smi | grep -o 'revision=.*' | awk {'print $1'} | awk -F "\"" {'print $2'}`
         branch=`cat manifest.xml  | grep amd-smi | grep -o 'upstream=.*' | awk {'print $1'} | awk -F "\"" {'print $2'}`
     else
-        echo "Error: Unable to wget manifest.xml!" ; exit 1
+        echo "Error: Unable to wget manifest.xml" ; exit 1
     fi
 
-    if [[ -z $revid ] || [ -z $branch ]] ; then
+    if [[ -z $revid ]] || [[ -z $branch ]] ; then
         echo "Error: Unable to extract revid/commit ID and/or branch name from manifest.xml"
         echo "Revid: $revid, branch: $branch"
         exit 1
     fi
 
-    mkdir -p /src/
-    pushd /src/
+    mkdir -p src/
+    pushd src/
     git clone "ssh://ggankhuy@gerrit-git.amd.com:29418/SYS-MGMT/ec/amd-smi"
     if [[ -d amd-smi ]] ; then
         pushd amd-smi
