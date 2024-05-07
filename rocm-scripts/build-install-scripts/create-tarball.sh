@@ -8,6 +8,7 @@ function usage()
     echo "examples: $0 --release --ver=6.0 --rocm=91 --amdgpu=1704596"
     echo "examples: $0 --rocm=13435 --amdgpu=1720129 --downloadno"
     echo "examples: $0 --rocm=13435 --amdgpu=1720129 --install"
+    echo "examples: $0 --rocm=13435 --amdgpu=1720129 --src"
 }
 
 function error() {
@@ -15,23 +16,30 @@ function error() {
     exit 1
 }
 
+src=0
+
 for var in "$@"
 do
     if [[ $DEBUG -eq 1 ]] ; then echo var: $var ; fi
 
     case "$var" in 
-        *--help*)
+        --help)
             usage
             exit 0
             ;;
-
-        *--rocm=*)
+        --src)
+            src=1
+            ;;
+        --rocm=*)
             rocm_build_no=`echo $var | cut -d '=' -f2`
             ;;
-        *--amdgpu=*)
+        --amdgpu=*)
             amdgpu_build_no=`echo $var | cut -d '=' -f2`
             ;;
-
+        --downloadno)
+            if [[ $DEBUG -eq 1 ]] ; then echo "Setting no download flag..." ; fi
+            skip_download="1"
+            ;;
         --install)
             if [[ $DEBUG -eq 1 ]] ; then echo "Will continue rocm install after creating tarball..." ; fi
             continue_install="1"
@@ -40,7 +48,7 @@ do
             if [[ $DEBUG -eq 1 ]] ; then eecho "Setting release..." ; fi
             release=1
             ;;
-        *--ver=*)
+        --ver=*)
             if [[ $DEBUG -eq 1 ]] ; then eecho "Setting rocm version..." ; fi
             rocm_ver=`echo $var | cut -d '=' -f2`
             ;;
@@ -85,13 +93,15 @@ http_amdgpu=http://mkmartifactory.amd.com/artifactory/amdgpu-rpm-local/rhel/9.2/
 
 if [[ $release -eq 1 ]] ; then
     http_rocm="http://compute-cdn.amd.com/artifactory/list/rocm-osdb-rhel-9.x/compute-rocm-rel-$rocm_ver-$rocm_build_no/"
+    http_release_page="http://rocm-ci.amd.com/view/Release-6.1/job/compute-rocm-rel-$rocm_ver/$rocm_build_no/"
 else
     http_rocm="http://compute-artifactory.amd.com/artifactory/list/rocm-osdb-rhel-9.x/compute-rocm-dkms-no-npi-hipclang-$rocm_build_no/"
+    http_release_page="http://rocm-ci.amd.com/job/compute-rocm-dkms-no-npi-hipclang/$rocm_build_no/"
 fi
 
 ROCM_DW_DIR=rocm
 AMDGPU_DW_DIR=amdgpu
-
+SRC_DIR=""
 mkdir $ROCM_DW_DIR $AMDGPU_DW_DIR
 
 if [[ -z $skip_download ]] ; then
@@ -101,8 +111,43 @@ if [[ -z $skip_download ]] ; then
     if [[ $? -ne 0 ]] ; then error "Unable to download amdgpu packages. Check the URL." ; fi
 fi
 
+if [[ $src == 1 ]] ; then
+    wget $http_release_page/artifact/manifest.xml
+    if [[ -f manifest.xml ]] ; then
+        revid=`cat manifest.xml  | grep amd-smi | grep -o 'revision=.*' | awk {'print $1'} | awk -F "\"" {'print $2'}`
+        branch=`cat manifest.xml  | grep amd-smi | grep -o 'upstream=.*' | awk {'print $1'} | awk -F "\"" {'print $2'}`
+    else
+        echo "Error: Unable to wget manifest.xml" ; exit 1
+    fi
+
+    if [[ -z $revid ]] || [[ -z $branch ]] ; then
+        echo "Error: Unable to extract revid/commit ID and/or branch name from manifest.xml"
+        echo "Revid: $revid, branch: $branch"
+        exit 1
+    fi
+
+    mkdir -p src/
+    pushd src/
+    git clone "ssh://ggankhuy@gerrit-git.amd.com:29418/SYS-MGMT/ec/amd-smi"
+    if [[ -d amd-smi ]] ; then
+        pushd amd-smi
+        git checkout $branch
+        result=`git log | grep $revid`
+        if [[ -z $result ]] ; then
+            echo "Error: Unable to locate revid: $revid"; exit 1
+        else
+            git checkout $revid
+        fi
+        popd
+    else
+        echo "Error: Unable to checkout amd-smi repository from gerrit!" ; exit 1
+    fi
+    popd
+    SRC_DIR=src
+fi
+
 output_filename=$ROCM_DW_DIR-$rocm_build_no-$AMDGPU_DW_DIR-$amdgpu_build_no.tar.gz
-tar -cvf $output_filename $ROCM_DW_DIR $AMDGPU_DW_DIR rocm-local-install.sh README
+tar -cvf $output_filename $ROCM_DW_DIR $AMDGPU_DW_DIR $SRC_DIR rocm-local-install.sh README
 if [[ $? -ne 0 ]] ; then error "Failed to create tar archive." ; fi
 
 tar -tf $output_filename | sudo tee $output_filename.log
