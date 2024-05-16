@@ -25,8 +25,13 @@ else
     echo "$MINICONDA_SRC_DIR exists. Assuming installed, bypassing installation..."
 fi
 
-if [[ -z `cat ~/.bashrc | egrep "export.*$MINICONDA_SRC_DIR/bin"` ]] ; then
-    echo "export PATH=$PATH:/$MINICONDA_SRC_DIR/bin" | sudo tee -a ~/.bashrc
+if [[  -z $SUDO_USER ]] ; then
+    BASHRC=~/.bashrc
+else
+    BASHRC=/home/$SUDO_USER/.bashrc
+fi
+if [[ -z `cat $BASHRC | egrep "export.*$MINICONDA_SRC_DIR/bin"` ]] ; then
+    echo "export PATH=$PATH:/$MINICONDA_SRC_DIR/bin" | sudo tee -a $BASHRC
 fi
 
 # This is done so that to isolated environments are created on /home partition than / partition.
@@ -42,6 +47,6 @@ if [[  -z $SUDO_USER ]] ; then
 else
     runuser -l nonroot -c "$CONDA init"
 fi
-echo "conda activate $CONDA_ENV_NAME" >> ~/.bashrc
+echo "conda activate $CONDA_ENV_NAME" >> $BASHRC
 echo "Conda envs created..."
 $CONDA info --env
