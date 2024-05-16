@@ -9,6 +9,7 @@ MINICONDA_SRC_DIR=/home/miniconda3
 LLAMA_PREREQ_PKGS=20240502_quanta_llamav2
 CONDA=/home/miniconda3/bin/conda
 CONDA_ENV_NAME="llama2-$USER"
+BASHRC=~/.bashrc
 
 if [[ $SUDO_USER ]] ; then
     echo "Do not run as sudo user. Instead all sudo required commands are issued directly from this script."
@@ -25,11 +26,7 @@ else
     echo "$MINICONDA_SRC_DIR exists. Assuming installed, bypassing installation..."
 fi
 
-if [[  -z $SUDO_USER ]] ; then
-    BASHRC=~/.bashrc
-else
-    BASHRC=/home/$SUDO_USER/.bashrc
-fi
+
 if [[ -z `cat $BASHRC | egrep "export.*$MINICONDA_SRC_DIR/bin"` ]] ; then
     echo "export PATH=$PATH:/$MINICONDA_SRC_DIR/bin" | sudo tee -a $BASHRC
 fi
@@ -40,7 +37,7 @@ fi
 ln -s $MINICONDA_SRC_DIR /$HOME/
 
 if [[ -z `cat $BASHRC | egrep "export CONDA_ENV_NAME"` ]] ; then
-    echo  "export CONDA_ENV_NAME=llama2-nonroot" | sudo tee -a $BASHRC
+    echo  "export CONDA_ENV_NAME=llama2-$USER" | sudo tee -a $BASHRC
 fi
 
 $CONDA create --name  $CONDA_ENV_NAME python==3.9 -y

@@ -4,27 +4,23 @@
 # changing the actual instalaltion folder to /home/miniconda3 because centos by default alloc-s 
 # only 70gb during installation.
 set -x 
+
+SUDO=sudo
 MINICONDA_SRC_DIR=/home/miniconda3
 LLAMA_PREREQ_PKGS=20240502_quanta_llamav2
 CONDA=/home/miniconda3/bin/conda
+CONDA_ENV_NAME="llama2-$USER"
+BASHRC=~/.bashrc
 
-if [[  -z $SUDO_USER ]] ; then
-    BASHRC=~/.bashrc
-else
-    BASHRC=/home/$SUDO_USER/.bashrc
-fi
-
-if [[ -z $SUDO_USER ]] ; then
-    CURR_USER=$USER
-else
-    CURR_USER=$SUDO_USER
+if [[ $SUDO_USER ]] ; then
+    echo "Do not run as sudo user. Instead all sudo required commands are issued directly from this script."
+    exit 1
 fi
 
 LOG_DIR=./log
 for i in gfortran libomp; do 
-    yum install $i -y ; 
+    $SUDO yum install $i -y ; 
 done
-CONDA_ENV_NAME="llama2"
 SOFT_LINK=0
 
 if [[ ! -f $LLAMA_PREREQ_PKGS.tar ]] ; then 
@@ -52,7 +48,7 @@ ls -l
 
 pushd $LLAMA_PREREQ_PKGS
 mkdir $LOG_DIR
-bash install.sh 2>&1 |  tee $LOG_DIR/install.log
+bash install.sh 2>&1 | tee $LOG_DIR/install.log
 popd
 
 git clone https://bitbucket.org/icl/magma.git
@@ -81,7 +77,7 @@ if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
     echo "export ROCM_PATH=$ROCM_PATH" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
 fi
 
-cp make.inc-examples/make.inc.hip-gcc-mkl make.inc
+$SUDO cp make.inc-examples/make.inc.hip-gcc-mkl make.inc
 echo "LIBDIR += -L\$(MKLROOT)/lib" | tee -a make.inc
 echo "LIB += -Wl,--enable-new-dtags -Wl,--rpath,\$(ROCM_PATH)/lib -Wl,--rpath,\$(MKLROOT)/lib -Wl,--rpath,\$(MAGMA_HOME)/lib" | tee -a make.inc
 echo "DEVCCFLAGS += --amdgpu-target=gfx942" | tee -a make.inc
