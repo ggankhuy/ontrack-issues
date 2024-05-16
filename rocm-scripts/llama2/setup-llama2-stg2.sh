@@ -109,5 +109,5 @@ echo 'LD_LIBRARY_PATH=$HOME/miniconda3/envs/$CONDA_ENV_NAME/lib:$HOME/miniconda3
 popd
 
 echo "$HOME/miniconda3/pkgs/mkl-2023.1.0-h213fc3f_46344/lib" | tee /etc/ld.so.conf.d/mkl.conf
-echo "$MAGMA_HOME/lib" | tee /etc/ld.so.conf.d/magma.conf
+echo "$MAGMA_HOME/lib" | $SUDO tee /etc/ld.so.conf.d/magma.conf
 ls -l /etc/ld.so.conf.d/

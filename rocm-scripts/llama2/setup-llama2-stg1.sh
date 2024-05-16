@@ -8,7 +8,7 @@ SUDO=sudo
 MINICONDA_SRC_DIR=/home/miniconda3
 LLAMA_PREREQ_PKGS=20240502_quanta_llamav2
 CONDA=/home/miniconda3/bin/conda
-CONDA_ENV_NAME="llama2-$USER"
+CONDA_ENV_NAME="llama2-$USER-2"
 BASHRC=~/.bashrc
 
 if [[ $SUDO_USER ]] ; then
