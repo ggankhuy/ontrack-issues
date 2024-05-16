@@ -4,23 +4,23 @@
 # changing the actual instalaltion folder to /home/miniconda3 because centos by default alloc-s 
 # only 70gb during installation.
 set -x 
-#SUDO=sudo
+SUDO=sudo
 MINICONDA_SRC_DIR=/home/miniconda3
 LLAMA_PREREQ_PKGS=20240502_quanta_llamav2
 CONDA=/home/miniconda3/bin/conda
+CONDA_ENV_NAME="llama2-$USER"
 
-if [[ -z $SUDO_USER ]] ; then
-    CURR_USER=$USER
-else
-    CURR_USER=$SUDO_USER
+if [[ $SUDO_USER ]] ; then
+    echo "Do not run as sudo user. Instead all sudo required commands are issued directly from this script."
+    exit 1
 fi
 
 if [[ ! -d $MINICONDA_SRC_DIR ]] ; then
-    mkdir -p $MINICONDA_SRC_DIR
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ./miniconda.sh
-    chmod 755 ./miniconda.sh
-    bash ./miniconda.sh -b -u -p /$MINICONDA_SRC_DIR
-    rm -rf ./miniconda.sh
+    $SUDO mkdir -p $MINICONDA_SRC_DIR
+    $SUDO wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ./miniconda.sh
+    $SUDO chmod 755 ./miniconda.sh
+    $SUDO bash ./miniconda.sh -b -u -p /$MINICONDA_SRC_DIR
+    $SUDO rm -rf ./miniconda.sh
 else
     echo "$MINICONDA_SRC_DIR exists. Assuming installed, bypassing installation..."
 fi
@@ -39,14 +39,12 @@ fi
 
 ln -s $MINICONDA_SRC_DIR /$HOME/
 
-CONDA_ENV_NAME="llama2-nonroot"
+if [[ -z `cat $BASHRC | egrep "export CONDA_ENV_NAME"` ]] ; then
+    echo  "export CONDA_ENV_NAME=llama2-nonroot" | sudo tee -a $BASHRC
+fi
 
 $CONDA create --name  $CONDA_ENV_NAME python==3.9 -y
-if [[  -z $SUDO_USER ]] ; then
-    $CONDA init
-else
-    runuser -l nonroot -c "$CONDA init"
-fi
+$CONDA init
 echo "conda activate $CONDA_ENV_NAME" >> $BASHRC
 echo "Conda envs created..."
 $CONDA info --env
