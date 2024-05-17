@@ -37,7 +37,7 @@ fi
 ln -s $MINICONDA_SRC_DIR /$HOME/
 
 if [[ -z `cat $BASHRC | egrep "export CONDA_ENV_NAME"` ]] ; then
-    echo  "export CONDA_ENV_NAME=llama2-$USER" | sudo tee -a $BASHRC
+    echo  "export CONDA_ENV_NAME=$CONDA_ENV_NAME" | sudo tee -a $BASHRC
 fi
 
 $CONDA create --name  $CONDA_ENV_NAME python==3.9 -y
