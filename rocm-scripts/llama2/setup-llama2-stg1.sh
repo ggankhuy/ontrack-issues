@@ -8,7 +8,15 @@ SUDO=sudo
 MINICONDA_SRC_DIR=/home/miniconda3
 LLAMA_PREREQ_PKGS=20240502_quanta_llamav2
 CONDA=/home/miniconda3/bin/conda
-CONDA_ENV_NAME="llama2-$USER-2"
+
+# if user is empty, then assuming it is root, this could be a problem
+# if cases is not. 
+
+if [[ -z $USER ]] ; then
+    USER=root
+fi
+
+CONDA_ENV_NAME="llama2-$USER"
 BASHRC=~/.bashrc
 
 if [[ $SUDO_USER ]] ; then
