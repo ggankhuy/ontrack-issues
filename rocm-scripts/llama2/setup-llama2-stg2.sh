@@ -26,13 +26,13 @@ if [[ ! -f $LLAMA_PREREQ_PKGS.tar ]] ; then
     echo "$LLAMA_PREREQ_PKGS.tar does not exist." 
     exit 1
 fi
-$SUDO tar -xvf  $LLAMA_PREREQ_PKGS.tar
+tar -xvf  $LLAMA_PREREQ_PKGS.tar
 pushd $LLAMA_PREREQ_PKGS
     for i in *tar ; do 
         dirname=`echo $i | awk '{print $1}' FS=. `
-        $SUDO mkdir $dirname ; pushd $dirname
-        $SUDO ln -s ../$i .
-        $SUDO tar -xvf ./$i 
+        mkdir $dirname ; pushd $dirname
+        ln -s ../$i .
+        tar -xvf ./$i 
         pip3 install ./*.whl
         popd
     done
@@ -41,16 +41,16 @@ popd
 conda install mkl-service -y
 pip3 install mkl 
 
-$SUDO tar -xf $LLAMA_PREREQ_PKGS.tar
+tar -xf $LLAMA_PREREQ_PKGS.tar
 pwd
 ls -l 
 
 pushd $LLAMA_PREREQ_PKGS
-$SUDO mkdir $LOG_DIR
+mkdir $LOG_DIR
 $SUDO bash install.sh 2>&1 | tee $LOG_DIR/install.log
 popd
 
-$SUDO git clone https://bitbucket.org/icl/magma.git
+git clone https://bitbucket.org/icl/magma.git
 pushd magma
 
 BASHRC_EXPORT=./export.md
@@ -76,20 +76,20 @@ if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
     echo "export ROCM_PATH=$ROCM_PATH" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
 fi
 
-$SUDO cp make.inc-examples/make.inc.hip-gcc-mkl make.inc
-echo "LIBDIR += -L\$(MKLROOT)/lib" | $SUDO tee -a make.inc
-echo "LIB += -Wl,--enable-new-dtags -Wl,--rpath,\$(ROCM_PATH)/lib -Wl,--rpath,\$(MKLROOT)/lib -Wl,--rpath,\$(MAGMA_HOME)/lib" | $SUDO tee -a make.inc
-echo "DEVCCFLAGS += --amdgpu-target=gfx942" | $SUDO tee -a make.inc
+cp make.inc-examples/make.inc.hip-gcc-mkl make.inc
+echo "LIBDIR += -L\$(MKLROOT)/lib" | tee -a make.inc
+echo "LIB += -Wl,--enable-new-dtags -Wl,--rpath,\$(ROCM_PATH)/lib -Wl,--rpath,\$(MKLROOT)/lib -Wl,--rpath,\$(MAGMA_HOME)/lib" | tee -a make.inc
+echo "DEVCCFLAGS += --amdgpu-target=gfx942" | tee -a make.inc
 # build MAGMA
-$SUDO make -f make.gen.hipMAGMA -j
-$SUDO HIPDIR=$ROCM_PATH GPU_TARGET=gfx942 make lib -j 2>&1 | $SUDO tee $LOG_DIR/make.magma.log
+make -f make.gen.hipMAGMA -j
+HIPDIR=$ROCM_PATH GPU_TARGET=gfx942 make lib -j 2>&1 | tee $LOG_DIR/make.magma.log
 popd
 
 pushd $LLAMA_PREREQ_PKGS
 
 if [[ $SOFT_LINK == 1 ]] ; then
     for i in  libmkl_intel_lp64 libmkl_gnu_thread libmkl_core; do
-        $SUDO ln -s \
+        ln -s \
         $HOME/.conda/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
         $HOME/.conda/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
     done
