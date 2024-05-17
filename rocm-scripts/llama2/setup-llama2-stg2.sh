@@ -67,8 +67,8 @@ if [[ -z `cat $BASHRC | grep "export.*MAGMA_HOME"` ]] ; then
 fi
 
 if [[  -z `cat $BASHRC | grep "export.*MKLROOT"` ]] ; then
-    echo "export MKLROOT=$HOME/miniconda3/envs/$CONDA_ENV_NAME" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
-    export MKLROOT=$HOME/miniconda3/envs/$CONDA_ENV_NAME
+    echo "export MKLROOT=$HOME/.conda/envs/$CONDA_ENV_NAME" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
+    export MKLROOT=$HOME/.conda/envs/$CONDA_ENV_NAME
 fi
 
 if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
@@ -82,7 +82,7 @@ echo "LIB += -Wl,--enable-new-dtags -Wl,--rpath,\$(ROCM_PATH)/lib -Wl,--rpath,\$
 echo "DEVCCFLAGS += --amdgpu-target=gfx942" | tee -a make.inc
 # build MAGMA
 make -f make.gen.hipMAGMA -j
-HIPDIR=$ROCM_PATH GPU_TARGET=gfx942 make lib -j 2>&1 | tee $LOG_DIR/make.magma.log
+HIPDIR=$ROCM_PATH GPU_TARGET=gfx942 make lib -j 2>&1 | tee ../$LOG_DIR/make.magma.log
 popd
 
 pushd $LLAMA_PREREQ_PKGS
