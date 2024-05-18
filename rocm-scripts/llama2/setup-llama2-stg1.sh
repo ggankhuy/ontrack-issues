@@ -39,7 +39,7 @@ else
 fi
 
 
-if [[ -z `cat $BASHRC | egrep "export.*$MINICONDA_SRC_DIR/bin"` ]] ; then
+if [[ -z `cat $BASHRC | egrep "export path.*$MINICONDA_SRC_DIR/bin"` ]] ; then
     echo "export PATH=$PATH:/$MINICONDA_SRC_DIR/bin" | sudo tee -a $BASHRC
 fi
 
@@ -50,6 +50,10 @@ ln -s $MINICONDA_SRC_DIR /$HOME/
 
 if [[ -z `cat $BASHRC | egrep "export CONDA_ENV_NAME"` ]] ; then
     echo  "export CONDA_ENV_NAME=$CONDA_ENV_NAME" | sudo tee -a $BASHRC
+fi
+
+if [[ -z `cat $BASHRC | egrep "export MINICONDA_SRC_DIR"` ]] ; then
+    echo  "export MINICONDA_SRC_DIR=$MINICONDA_SRC_DIR" | sudo tee -a $BASHRC
 fi
 
 $CONDA create python==3.9 --name $CONDA_ENV_NAME  -y

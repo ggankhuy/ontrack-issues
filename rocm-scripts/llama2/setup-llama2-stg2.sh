@@ -69,18 +69,18 @@ fi
 
 ls -l $BASHRC
 if [[ -z `cat $BASHRC | grep "export.*MAGMA_HOME"` ]] ; then
-    echo "export MAGMA_HOME=$PWD" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
+    echo "export MAGMA_HOME=$PWD" | tee -a $BASHRC
     export MAGMA_HOME=$PWD
 fi
 
 if [[  -z `cat $BASHRC | grep "export.*MKLROOT"` ]] ; then
-    echo "export MKLROOT=$CONDA_ENV_BASE/$CONDA_ENV_NAME" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
+    echo "export MKLROOT=$CONDA_ENV_BASE/$CONDA_ENV_NAME" | tee -a $BASHRC
     export MKLROOT=$CONDA_ENV_BASE/$CONDA_ENV_NAME
 fi
 
 if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
     export ROCM_PATH=$ROCM_PATH
-    echo "export ROCM_PATH=$ROCM_PATH" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
+    echo "export ROCM_PATH=$ROCM_PATH" | tee -a $BASHRC
 fi
 
 cp make.inc-examples/make.inc.hip-gcc-mkl make.inc
