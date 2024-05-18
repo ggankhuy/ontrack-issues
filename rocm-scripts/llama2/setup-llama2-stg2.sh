@@ -67,8 +67,8 @@ if [[ -z `cat $BASHRC | grep "export.*MAGMA_HOME"` ]] ; then
 fi
 
 if [[  -z `cat $BASHRC | grep "export.*MKLROOT"` ]] ; then
-    echo "export MKLROOT=$HOME/.conda/envs/$CONDA_ENV_NAME" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
-    export MKLROOT=$HOME/.conda/envs/$CONDA_ENV_NAME
+    echo "export MKLROOT=$CONDA_ENV_PATH/$CONDA_ENV_NAME" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
+    export MKLROOT=$CONDA_ENV_PATH/$CONDA_ENV_NAME
 fi
 
 if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
@@ -90,15 +90,15 @@ pushd $LLAMA_PREREQ_PKGS
 if [[ $SOFT_LINK == 1 ]] ; then
     for i in  libmkl_intel_lp64 libmkl_gnu_thread libmkl_core; do
         ln -s \
-        $HOME/.conda/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
-        $HOME/.conda/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
+        $MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
+        $MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
     done
 else
     for i in  libmkl_intel_lp64 libmkl_gnu_thread libmkl_core; do
-        rm -rf $HOME/.conda/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
+        rm -rf $MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
         cp \
-        $HOME/.conda/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
-        $HOME/.conda/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
+        $MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
+        $MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
     done
 fi
 
@@ -109,9 +109,9 @@ echo "Use following cmd to run:"
 
 #    $HOME/$USER/.conda/envs/$CONDA_ENV_NAME/lib:\
 echo '\
-    LD_LIBRARY_PATH=$HOME/.conda/pkgs/mkl-2023.1.0-h213fc3f_46344/lib:$MAGMA_HOME/lib ./run_llama2_70b.sh'
+    LD_LIBRARY_PATH=$MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib:$MAGMA_HOME/lib ./run_llama2_70b.sh'
 popd
 
-echo "$HOME/.conda/pkgs/mkl-2023.1.0-h213fc3f_46344/lib" | tee /etc/ld.so.conf.d/mkl.conf
+echo "$MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib" | tee /etc/ld.so.conf.d/mkl.conf
 echo "$MAGMA_HOME/lib" | $SUDO tee /etc/ld.so.conf.d/magma.conf
 ls -l /etc/ld.so.conf.d/

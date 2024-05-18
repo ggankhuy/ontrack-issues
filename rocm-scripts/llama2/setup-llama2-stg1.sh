@@ -8,15 +8,19 @@ SUDO=sudo
 MINICONDA_SRC_DIR=/home/miniconda3
 LLAMA_PREREQ_PKGS=20240502_quanta_llamav2
 CONDA=/home/miniconda3/bin/conda
+/home/miniconda3/envs
 
 # if user is empty, then assuming it is root, this could be a problem
 # if cases is not. 
 
 if [[ -z $USER ]] ; then
     USER=root
+    CONDA_ENV_PATH=$MINICONDA_SRC_DIR/envs
+else
+    CONDA_ENV_PATH=$HOME/.conda/envs
 fi
 
-CONDA_ENV_NAME="llama2-$USER"
+CONDA_ENV_NAME="llama2-$USER-new"
 BASHRC=~/.bashrc
 
 if [[ $SUDO_USER ]] ; then
@@ -48,7 +52,7 @@ if [[ -z `cat $BASHRC | egrep "export CONDA_ENV_NAME"` ]] ; then
     echo  "export CONDA_ENV_NAME=$CONDA_ENV_NAME" | sudo tee -a $BASHRC
 fi
 
-$CONDA create --name  $CONDA_ENV_NAME python==3.9 -y
+$CONDA create python==3.9 --name $CONDA_ENV_NAME  -y
 $CONDA init
 echo "conda init" >> $BASHRC
 echo "conda activate $CONDA_ENV_NAME" >> $BASHRC
