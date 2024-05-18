@@ -15,9 +15,9 @@ CONDA=/home/miniconda3/bin/conda
 
 if [[ -z $USER ]] ; then
     USER=root
-    CONDA_ENV_PATH=$MINICONDA_SRC_DIR/envs
+    CONDA_ENV_BASE=$MINICONDA_SRC_DIR/envs
 else
-    CONDA_ENV_PATH=$HOME/.conda/envs
+    CONDA_ENV_BASE=$HOME/.conda/envs
 fi
 
 CONDA_ENV_NAME="llama2-$USER-new"

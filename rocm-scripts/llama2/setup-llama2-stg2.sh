@@ -16,6 +16,13 @@ if [[ $SUDO_USER ]] ; then
     exit 1
 fi
 
+if [[ -z $USER ]] ; then
+    USER=root
+    CONDA_ENV_BASE=$MINICONDA_SRC_DIR/envs
+else
+    CONDA_ENV_BASE=$HOME/.conda/envs
+fi
+
 LOG_DIR=./log
 for i in gfortran libomp; do 
     $SUDO yum install $i -y ; 
@@ -67,8 +74,8 @@ if [[ -z `cat $BASHRC | grep "export.*MAGMA_HOME"` ]] ; then
 fi
 
 if [[  -z `cat $BASHRC | grep "export.*MKLROOT"` ]] ; then
-    echo "export MKLROOT=$CONDA_ENV_PATH/$CONDA_ENV_NAME" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
-    export MKLROOT=$CONDA_ENV_PATH/$CONDA_ENV_NAME
+    echo "export MKLROOT=$CONDA_ENV_BASE/$CONDA_ENV_NAME" | tee -a $BASHRC | tee -a $BASHRC_EXPORT
+    export MKLROOT=$CONDA_ENV_BASE/$CONDA_ENV_NAME
 fi
 
 if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
