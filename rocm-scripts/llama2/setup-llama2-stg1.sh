@@ -50,6 +50,7 @@ fi
 
 $CONDA create --name  $CONDA_ENV_NAME python==3.9 -y
 $CONDA init
+echo "conda init" >> $BASHRC
 echo "conda activate $CONDA_ENV_NAME" >> $BASHRC
 echo "Conda envs created..."
 $CONDA info --env
