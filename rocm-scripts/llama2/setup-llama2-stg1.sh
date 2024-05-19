@@ -20,7 +20,11 @@ else
     CONDA_ENV_BASE=$HOME/.conda/envs
 fi
 
-CONDA_ENV_NAME="llama2-$USER-new"
+if [[ -z `cat $BASHRC | egrep "export CONDA_ENV_BASE"` ]] ; then
+    echo  "export CONDA_ENV_BASE=$CONDA_ENV_BASE=" | sudo tee -a $BASHRC
+fi
+
+CONDA_ENV_NAME="llama2-$USER"
 BASHRC=~/.bashrc
 
 if [[ $SUDO_USER ]] ; then
@@ -37,7 +41,6 @@ if [[ ! -d $MINICONDA_SRC_DIR ]] ; then
 else
     echo "$MINICONDA_SRC_DIR exists. Assuming installed, bypassing installation..."
 fi
-
 
 if [[ -z `cat $BASHRC | egrep "export path.*$MINICONDA_SRC_DIR/bin"` ]] ; then
     echo "export PATH=$PATH:/$MINICONDA_SRC_DIR/bin" | sudo tee -a $BASHRC
@@ -60,5 +63,5 @@ $CONDA create python==3.9 --name $CONDA_ENV_NAME  -y
 $CONDA init
 echo "conda init" >> $BASHRC
 echo "conda activate $CONDA_ENV_NAME" >> $BASHRC
-echo "Conda envs created..."
+echo "Conda envs created, relogin to activate the environment..."
 $CONDA info --env
