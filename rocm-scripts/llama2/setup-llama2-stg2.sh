@@ -116,9 +116,9 @@ echo "Use following cmd to run:"
 
 #    $HOME/$USER/.conda/envs/$CONDA_ENV_NAME/lib:\
 echo '\
-    LD_LIBRARY_PATH=$MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib:$MAGMA_HOME/lib ./run_llama2_70b.sh'
+    LD_LIBRARY_PATH=$CONDA_ENV_BASE/pkgs/mkl-2023.1.0-h213fc3f_46344/lib:$MAGMA_HOME/lib ./run_llama2_70b.sh'
 popd
 
-echo "$MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib" | tee /etc/ld.so.conf.d/mkl.conf
+echo "CONDA_ENV_BASE/pkgs/mkl-2023.1.0-h213fc3f_46344/lib" | tee /etc/ld.so.conf.d/mkl.conf
 echo "$MAGMA_HOME/lib" | $SUDO tee /etc/ld.so.conf.d/magma.conf
 ls -l /etc/ld.so.conf.d/

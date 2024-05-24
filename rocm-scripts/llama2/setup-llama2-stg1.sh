@@ -52,6 +52,10 @@ if [[ -z `cat $BASHRC | egrep "export CONDA_ENV_NAME"` ]] ; then
     echo  "export CONDA_ENV_NAME=$CONDA_ENV_NAME" | sudo tee -a $BASHRC
 fi
 
+if [[ -z `cat $BASHRC | egrep "export CONDA_ENV_BASE"` ]] ; then
+    echo  "export CONDA_ENV_BASE=$CONDA_ENV_BASE" | sudo tee -a $BASHRC
+fi
+
 if [[ -z `cat $BASHRC | egrep "export MINICONDA_SRC_DIR"` ]] ; then
     echo  "export MINICONDA_SRC_DIR=$MINICONDA_SRC_DIR" | sudo tee -a $BASHRC
 fi
