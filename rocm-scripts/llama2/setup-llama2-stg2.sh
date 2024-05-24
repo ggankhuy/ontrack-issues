@@ -18,9 +18,9 @@ fi
 
 if [[ -z $USER ]] ; then
     USER=root
-    CONDA_ENV_BASE=$MINICONDA_SRC_DIR/envs
+    CONDA_ENV_BASE=$MINICONDA_SRC_DIR/
 else
-    CONDA_ENV_BASE=$HOME/.conda/envs
+    CONDA_ENV_BASE=$HOME/.conda/
 fi
 
 LOG_DIR=./log
@@ -74,8 +74,8 @@ if [[ -z `cat $BASHRC | grep "export.*MAGMA_HOME"` ]] ; then
 fi
 
 if [[  -z `cat $BASHRC | grep "export.*MKLROOT"` ]] ; then
-    echo "export MKLROOT=$CONDA_ENV_BASE/$CONDA_ENV_NAME" | tee -a $BASHRC
-    export MKLROOT=$CONDA_ENV_BASE/$CONDA_ENV_NAME
+    echo "export MKLROOT=$CONDA_ENV_BASE/envs/$CONDA_ENV_NAME" | tee -a $BASHRC
+    export MKLROOT=$CONDA_ENV_BASE/envs/$CONDA_ENV_NAME
 fi
 
 if [[ -z `cat $BASHRC | grep "export.*ROCM_PATH"` ]] ; then
@@ -97,15 +97,15 @@ pushd $LLAMA_PREREQ_PKGS
 if [[ $SOFT_LINK == 1 ]] ; then
     for i in  libmkl_intel_lp64 libmkl_gnu_thread libmkl_core; do
         ln -s \
-        $MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
-        $MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
+        $CONDA_ENV_BASE/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
+        $CONDA_ENV_BASE/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
     done
 else
     for i in  libmkl_intel_lp64 libmkl_gnu_thread libmkl_core; do
-        rm -rf $MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
+        rm -rf $CONDA_ENV_BASE/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
         cp \
-        $MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
-        $MINICONDA_SRC_DIR/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
+        $CONDA_ENV_BASE/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.2 \
+        $CONDA_ENV_BASE/pkgs/mkl-2023.1.0-h213fc3f_46344/lib/$i.so.1
     done
 fi
 
