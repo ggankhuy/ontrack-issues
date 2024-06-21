@@ -10,7 +10,7 @@ def main():
         'dtype': torch.bfloat16
     }
     q_shape = [1, 3058, 8, 128]
-    kv_shape = [1, 491520, 8, 128],
+    kv_shape = [1, 491520, 8, 128]
     q = torch.randn(q_shape, **options)
     k = torch.randn(kv_shape, **options)
     v = torch.randn(kv_shape, **options)
