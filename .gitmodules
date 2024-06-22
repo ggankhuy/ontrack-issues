@@ -1,3 +1,9 @@
 [submodule "FBA/FBA-345/RDC_test"]
 	path = FBA/FBA-345/RDC_test
 	url = https://github.com/Alston-Tang/RDC_test/
+[submodule "FBA/FBA-375-new-feat/xformers"]
+	path = FBA/FBA-375-new-feat/xformers
+	url = https://github.com/facebookresearch/xformers.git
+[submodule "FBA/FBA-375-new-feat/xformer-rocm"]
+	path = FBA/FBA-375-new-feat/xformer-rocm
+	url = https://github.com/ROCm/xformers.git
