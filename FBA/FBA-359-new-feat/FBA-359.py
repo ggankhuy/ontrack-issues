@@ -11,7 +11,7 @@ parser.add_argument("--disable-hipblaslt", action="store_true")
 parser.add_argument(
     "--batch-size",
     type=int,
-    default=64,
+    default=2,
 )
 args = parser.parse_args()
 
