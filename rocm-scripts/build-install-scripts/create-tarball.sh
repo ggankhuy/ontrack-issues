@@ -147,7 +147,7 @@ if [[ $src == 1 ]] ; then
 fi
 
 output_filename=$ROCM_DW_DIR-$rocm_build_no-$AMDGPU_DW_DIR-$amdgpu_build_no.tar.gz
-tar -cvf $output_filename $ROCM_DW_DIR $AMDGPU_DW_DIR $SRC_DIR rocm-local-install.sh README
+tar -cvf $output_filename $ROCM_DW_DIR $AMDGPU_DW_DIR $SRC_DIR rocm-local-install-2.sh README
 if [[ $? -ne 0 ]] ; then error "Failed to create tar archive." ; fi
 
 tar -tf $output_filename | sudo tee $output_filename.log
