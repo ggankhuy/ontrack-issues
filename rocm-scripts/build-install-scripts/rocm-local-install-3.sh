@@ -1,0 +1,1 @@
+rocm-local-install-2.sh
