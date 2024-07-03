@@ -42,7 +42,7 @@ yum install epel-release epel-next-release -y
 amdgpu-install --uninstall -y
 sudo yum remove rocm amdgpu -y
 
-for i in rocm amdgpu; do
+for i in  rocm amdgpu; do
     rm -rf /etc/yum.repos.d/$i*.repo
 done
 
@@ -51,7 +51,6 @@ for i in rocm amdgpu; do
     dir=`dirname $path`
     pushd $dir
     pwd
-    rm -rf /etc/yum.repos.d/$i*.repo
 
     createrepo --simple-md-filenames .
     echo -ne "" > $i.repo
@@ -69,7 +68,10 @@ for i in rocm amdgpu; do
             continue
         fi
     fi
+    popd
+done
 
+for i in rocm amdgpu ; do
     yum install $i -y
 
     if [[ $i == "rocm" ]] ; then
@@ -80,5 +82,4 @@ for i in rocm amdgpu; do
             sudo ln -s /opt/rocm/llvm/bin/$j /usr/bin/
         done
     fi
-    popd
 done
