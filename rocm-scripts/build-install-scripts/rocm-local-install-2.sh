@@ -62,16 +62,17 @@ for i in rocm amdgpu; do
 
     cp $i.repo /etc/yum.repos.d/
 
+
+    popd
+done
+
+for i in rocm amdgpu ; do
     if [[ $i == "amdgpu" ]] ; then
         if [[ $nodkms -eq 1 ]] ; then
             echo "Will bypass dkms installation."
             continue
         fi
     fi
-    popd
-done
-
-for i in rocm amdgpu ; do
     yum install $i -y
 
     if [[ $i == "rocm" ]] ; then
