@@ -24,7 +24,9 @@ do_profile = args.enable_profiler
 N = args.message_size // 2  # number of elements using bf16
 ITER = args.iter
 
-torch.ops.load_library("//gen_ai/llm_inference/fb/llm/csrc:llama_cpp") ## AMD side: you may change this line and below to call msccl and the oneshot kernel that Cen shared with you to do the microbenchmark
+torch.ops.load_library("//gen_ai/llm_inference/fb/llm/csrc:llama_cpp") 
+## AMD side: you may change this line and below to call msccl and the oneshot 
+## kernel that Cen shared with you to do the microbenchmark
 
 
 
