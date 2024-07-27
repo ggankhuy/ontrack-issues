@@ -1,0 +1,93 @@
+AMD clang version 18.0.0git (https://github.com/RadeonOpenCompute/llvm-project roc-6.2.0 24232 ba20a5053007e02831bb82563194ad1df0a3395b)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /opt/rocm/llvm/bin
+Configuration file: /opt/rocm-6.2.0/lib/llvm/bin/clang++.cfg
+Found candidate GCC installation: /usr/lib/gcc/x86_64-redhat-linux/11
+Selected GCC installation: /usr/lib/gcc/x86_64-redhat-linux/11
+Candidate multilib: .;@m64
+Candidate multilib: 32;@m32
+Selected multilib: .;@m64
+Found HIP installation: /opt/rocm-6.2.0/lib/llvm/bin/../../.., version 6.2.41133
+Found undefined HIP fatbin symbol: __hip_fatbin_1c859ef64a4181c9
+Found undefined HIP fatbin symbol: __hip_fatbin_1e44440f4c9f1d33
+Found undefined HIP fatbin symbol: __hip_fatbin_1edfbcea84dc1f80
+Found undefined HIP fatbin symbol: __hip_fatbin_1eeb98fd691b9355
+Found undefined HIP fatbin symbol: __hip_fatbin_28315bdfdf558d3f
+Found undefined HIP fatbin symbol: __hip_fatbin_2a6a697a351dc742
+Found undefined HIP fatbin symbol: __hip_fatbin_2be8ee8120dc25db
+Found undefined HIP fatbin symbol: __hip_fatbin_30ea08278504b8b2
+Found undefined HIP fatbin symbol: __hip_fatbin_31ea1f579b739a8e
+Found undefined HIP fatbin symbol: __hip_fatbin_325e1aa627271724
+Found undefined HIP fatbin symbol: __hip_fatbin_34892be6d40e8a8
+Found undefined HIP fatbin symbol: __hip_fatbin_43052b8a8947e82c
+Found undefined HIP fatbin symbol: __hip_fatbin_45fc9d017071eef7
+Found undefined HIP fatbin symbol: __hip_fatbin_588cf6b4c63e517e
+Found undefined HIP fatbin symbol: __hip_fatbin_5a1a3aea03d1f045
+Found undefined HIP fatbin symbol: __hip_fatbin_5e7d2a1737ec4e1a
+Found undefined HIP fatbin symbol: __hip_fatbin_5efe0fa256ac7334
+Found undefined HIP fatbin symbol: __hip_fatbin_654c10fa288b0878
+Found undefined HIP fatbin symbol: __hip_fatbin_6824c86e688f0187
+Found undefined HIP fatbin symbol: __hip_fatbin_71d498207f360ff0
+Found undefined HIP fatbin symbol: __hip_fatbin_7f54d921d3a28ff7
+Found undefined HIP fatbin symbol: __hip_fatbin_86db403a37abe1ed
+Found undefined HIP fatbin symbol: __hip_fatbin_87407a5332c547ee
+Found undefined HIP fatbin symbol: __hip_fatbin_8f80fe69dd58239a
+Found undefined HIP fatbin symbol: __hip_fatbin_a36f12d9d89c4166
+Found undefined HIP fatbin symbol: __hip_fatbin_a427ec309800a4f
+Found undefined HIP fatbin symbol: __hip_fatbin_c0c1b3a8d9abfd76
+Found undefined HIP fatbin symbol: __hip_fatbin_d0968d0fef4be858
+Found undefined HIP fatbin symbol: __hip_fatbin_dc71418d0152ceaa
+Found undefined HIP fatbin symbol: __hip_fatbin_dcdec3ef6c8c13e4
+Found undefined HIP fatbin symbol: __hip_fatbin_deee274e6c0cffeb
+Found undefined HIP fatbin symbol: __hip_fatbin_dfbf9ae0199de49a
+Found undefined HIP fatbin symbol: __hip_fatbin_e31241f69451e167
+Found undefined HIP fatbin symbol: __hip_fatbin_e5dc6909922ad62b
+Found undefined HIP fatbin symbol: __hip_fatbin_e7d491d373f47ab3
+Found undefined HIP fatbin symbol: __hip_fatbin_ea4a05ba646414f9
+Found undefined HIP fatbin symbol: __hip_fatbin_ed29ec02d953820f
+Found undefined HIP fatbin symbol: __hip_fatbin_feabdd1ce70c654d
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_1c859ef64a4181c9
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_1e44440f4c9f1d33
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_1edfbcea84dc1f80
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_1eeb98fd691b9355
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_28315bdfdf558d3f
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_2a6a697a351dc742
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_2be8ee8120dc25db
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_30ea08278504b8b2
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_31ea1f579b739a8e
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_325e1aa627271724
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_34892be6d40e8a8
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_43052b8a8947e82c
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_45fc9d017071eef7
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_588cf6b4c63e517e
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_5a1a3aea03d1f045
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_5e7d2a1737ec4e1a
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_5efe0fa256ac7334
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_654c10fa288b0878
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_6824c86e688f0187
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_71d498207f360ff0
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_7f54d921d3a28ff7
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_86db403a37abe1ed
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_87407a5332c547ee
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_8f80fe69dd58239a
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_a36f12d9d89c4166
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_a427ec309800a4f
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_c0c1b3a8d9abfd76
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_d0968d0fef4be858
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_dc71418d0152ceaa
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_dcdec3ef6c8c13e4
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_deee274e6c0cffeb
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_dfbf9ae0199de49a
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_e31241f69451e167
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_e5dc6909922ad62b
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_e7d491d373f47ab3
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_ea4a05ba646414f9
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_ed29ec02d953820f
+Found undefined HIP gpubin handle symbol: __hip_gpubin_handle_feabdd1ce70c654d
+ "/opt/rocm/llvm/bin/clang-offload-bundler" -type=o -targets=host-x86_64-unknown-linux-gnu,hip-amdgcn-amd-amdhsa-gfx942 -input=onerank.o -output=/tmp/onerank-5f2232.o -output=/tmp/onerank-gfx942-98e27c.o -unbundle -allow-missing-bundles -verbose
+Uncompressed bundle.
+ "/opt/rocm/llvm/bin/clang-offload-bundler" -type=o -targets=host-x86_64-unknown-linux-gnu,hip-amdgcn-amd-amdhsa-gfx942 -input=onerank.o -output=/tmp/onerank-434c9c.o -output=/tmp/onerank-gfx942-b4855e.o -unbundle -allow-missing-bundles -verbose
+Uncompressed bundle.
+ "/opt/rocm/llvm/bin/clang-offload-bundler" -unbundle -type=a -input=/opt/rocm-static//lib/librccl.a -targets=hip-amdgcn-amd-amdhsa-gfx942 -output=/tmp/libbc-librccl.a-amdgcn-gfx942-01d240.a -allow-missing-bundles -hip-openmp-compatible
+ "/opt/rocm/llvm/bin/lld" -flavor gnu -m elf64_amdgpu --no-undefined -shared -plugin-opt=-amdgpu-internalize-symbols -plugin-opt=mcpu=gfx942 -plugin-opt=O3 --lto-CGO3 --whole-archive -o /tmp/onerank-gfx942-6747cd.out /tmp/onerank-gfx942-b4855e.o /tmp/libbc-librccl.a-amdgcn-gfx942-01d240.a --no-whole-archive

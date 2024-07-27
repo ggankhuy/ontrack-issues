@@ -1,0 +1,67 @@
+AMD clang version 18.0.0git (https://github.com/RadeonOpenCompute/llvm-project roc-6.2.0 24232 ba20a5053007e02831bb82563194ad1df0a3395b)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /opt/rocm/llvm/bin
+Configuration file: /opt/rocm-6.2.0/lib/llvm/bin/clang++.cfg
+Found candidate GCC installation: /usr/lib/gcc/x86_64-redhat-linux/11
+Selected GCC installation: /usr/lib/gcc/x86_64-redhat-linux/11
+Candidate multilib: .;@m64
+Candidate multilib: 32;@m32
+Selected multilib: .;@m64
+Found HIP installation: /opt/rocm-6.2.0/lib/llvm/bin/../../.., version 6.2.41133
+ "/opt/rocm-6.2.0/lib/llvm/bin/clang-18" -cc1 -triple amdgcn-amd-amdhsa -aux-triple x86_64-unknown-linux-gnu -emit-llvm-bc -emit-llvm-uselists -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name onerank.cpp -mrelocation-model pic -pic-level 2 -fhalf-no-semantic-interposition -mframe-pointer=none -fno-rounding-math -mconstructor-aliases -aux-target-cpu x86-64 -fcuda-is-device -fcuda-allow-variadic-functions -fvisibility=hidden -fapply-global-visibility-to-externs -mlink-builtin-bitcode /opt/rocm-6.2.0/lib/llvm/lib/clang/18/lib/amdgcn/bitcode/hip.bc -mlink-builtin-bitcode /opt/rocm-6.2.0/lib/llvm/lib/clang/18/lib/amdgcn/bitcode/ocml.bc -mlink-builtin-bitcode /opt/rocm-6.2.0/lib/llvm/lib/clang/18/lib/amdgcn/bitcode/ockl.bc -mlink-builtin-bitcode /opt/rocm-6.2.0/lib/llvm/lib/clang/18/lib/amdgcn/bitcode/oclc_daz_opt_off.bc -mlink-builtin-bitcode /opt/rocm-6.2.0/lib/llvm/lib/clang/18/lib/amdgcn/bitcode/oclc_unsafe_math_off.bc -mlink-builtin-bitcode /opt/rocm-6.2.0/lib/llvm/lib/clang/18/lib/amdgcn/bitcode/oclc_finite_only_off.bc -mlink-builtin-bitcode /opt/rocm-6.2.0/lib/llvm/lib/clang/18/lib/amdgcn/bitcode/oclc_correctly_rounded_sqrt_on.bc -mlink-builtin-bitcode /opt/rocm-6.2.0/lib/llvm/lib/clang/18/lib/amdgcn/bitcode/oclc_wavefrontsize64_on.bc -mlink-builtin-bitcode /opt/rocm-6.2.0/lib/llvm/lib/clang/18/lib/amdgcn/bitcode/oclc_isa_version_942.bc -mlink-builtin-bitcode /opt/rocm-6.2.0/lib/llvm/lib/clang/18/lib/amdgcn/bitcode/oclc_abi_version_500.bc -target-cpu gfx942 -debugger-tuning=gdb -fdebug-compilation-dir=/root/extdir/gg/git/ontrack-issues/FBA/FBA-396 -v -resource-dir /opt/rocm-6.2.0/lib/llvm/lib/clang/18 -internal-isystem /opt/rocm-6.2.0/lib/llvm/lib/clang/18/include/cuda_wrappers -idirafter /opt/rocm-6.2.0/lib/llvm/bin/../../../include -include __clang_hip_runtime_wrapper.h -I /opt/rocm/include -I /opt/rocm-static//include -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11 -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/backward -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11 -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/backward -internal-isystem /opt/rocm-6.2.0/lib/llvm/lib/clang/18/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -internal-isystem /opt/rocm-6.2.0/lib/llvm/lib/clang/18/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -O3 -fdeprecated-macro -fno-autolink -ferror-limit 19 -fhip-new-launch-api -fgpu-rdc -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -vectorize-loops -vectorize-slp -cuid=5d82d7331f634a37 -fcuda-allow-variadic-functions -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /tmp/onerank-gfx942-f47c46.bc -x hip onerank.cpp
+clang -cc1 version 18.0.0git based upon LLVM 18.0.0git default target x86_64-unknown-linux-gnu
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-redhat-linux/11/../../../../x86_64-redhat-linux/include"
+ignoring nonexistent directory "/include"
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-redhat-linux/11/../../../../x86_64-redhat-linux/include"
+ignoring nonexistent directory "/include"
+ignoring duplicate directory "/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11"
+ignoring duplicate directory "/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux"
+ignoring duplicate directory "/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/backward"
+ignoring duplicate directory "/opt/rocm-6.2.0/lib/llvm/lib/clang/18/include"
+ignoring duplicate directory "/usr/local/include"
+ignoring duplicate directory "/usr/include"
+ignoring duplicate directory "/usr/local/include"
+ignoring duplicate directory "/opt/rocm-6.2.0/lib/llvm/lib/clang/18/include"
+ignoring duplicate directory "/usr/include"
+ignoring duplicate directory "/opt/rocm-6.2.0/lib/llvm/bin/../../../include"
+  as it is a non-system directory that duplicates a system directory
+#include "..." search starts here:
+#include <...> search starts here:
+ /opt/rocm-static//include
+ /opt/rocm-6.2.0/lib/llvm/lib/clang/18/include/cuda_wrappers
+ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11
+ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux
+ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/backward
+ /opt/rocm-6.2.0/lib/llvm/lib/clang/18/include
+ /usr/local/include
+ /usr/include
+ /opt/rocm-6.2.0/lib/llvm/bin/../../../include
+End of search list.
+ "/opt/rocm-6.2.0/lib/llvm/bin/clang-18" -cc1 -triple x86_64-unknown-linux-gnu -aux-triple amdgcn-amd-amdhsa -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name onerank.cpp -mrelocation-model static -mframe-pointer=none -fmath-errno -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/root/extdir/gg/git/ontrack-issues/FBA/FBA-396 -v -fcoverage-compilation-dir=/root/extdir/gg/git/ontrack-issues/FBA/FBA-396 -resource-dir /opt/rocm-6.2.0/lib/llvm/lib/clang/18 -internal-isystem /opt/rocm-6.2.0/lib/llvm/lib/clang/18/include/cuda_wrappers -idirafter /opt/rocm-6.2.0/lib/llvm/bin/../../../include -include __clang_hip_runtime_wrapper.h -I /opt/rocm/include -I /opt/rocm-static//include -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11 -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/backward -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11 -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/backward -internal-isystem /opt/rocm-6.2.0/lib/llvm/lib/clang/18/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -internal-isystem /opt/rocm-6.2.0/lib/llvm/lib/clang/18/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/11/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -O3 -fdeprecated-macro -ferror-limit 19 -fhip-new-launch-api -fgpu-rdc -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -vectorize-loops -vectorize-slp -cuid=5d82d7331f634a37 -fcuda-allow-variadic-functions -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /tmp/onerank-e860ed.o -x hip onerank.cpp
+clang -cc1 version 18.0.0git based upon LLVM 18.0.0git default target x86_64-unknown-linux-gnu
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-redhat-linux/11/../../../../x86_64-redhat-linux/include"
+ignoring nonexistent directory "/include"
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-redhat-linux/11/../../../../x86_64-redhat-linux/include"
+ignoring nonexistent directory "/include"
+ignoring duplicate directory "/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11"
+ignoring duplicate directory "/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux"
+ignoring duplicate directory "/usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/backward"
+ignoring duplicate directory "/opt/rocm-6.2.0/lib/llvm/lib/clang/18/include"
+ignoring duplicate directory "/usr/local/include"
+ignoring duplicate directory "/usr/include"
+ignoring duplicate directory "/opt/rocm-6.2.0/lib/llvm/bin/../../../include"
+  as it is a non-system directory that duplicates a system directory
+#include "..." search starts here:
+#include <...> search starts here:
+ /opt/rocm-static//include
+ /opt/rocm-6.2.0/lib/llvm/lib/clang/18/include/cuda_wrappers
+ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11
+ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux
+ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/backward
+ /opt/rocm-6.2.0/lib/llvm/lib/clang/18/include
+ /usr/local/include
+ /usr/include
+ /opt/rocm-6.2.0/lib/llvm/bin/../../../include
+End of search list.
+ "/opt/rocm/llvm/bin/clang-offload-bundler" -type=o -targets=hip-amdgcn-amd-amdhsa-gfx942,host-x86_64-unknown-linux-gnu -output=onerank.o -input=/tmp/onerank-gfx942-f47c46.bc -input=/tmp/onerank-e860ed.o -verbose
