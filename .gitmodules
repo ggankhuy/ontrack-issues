@@ -7,3 +7,9 @@
 [submodule "FBA/FBA-375-new-feat/xformer-rocm"]
 	path = FBA/FBA-375-new-feat/xformer-rocm
 	url = https://github.com/ROCm/xformers.git
+[submodule "FBA/FBA-396/rccl-tests"]
+	path = FBA/FBA-396/rccl-tests
+	url = https://github.com/ROCm/rccl-tests.git
+[submodule "FBA/FBA-396/rccl"]
+	path = FBA/FBA-396/rccl
+	url = https://github.com/ROCm/rccl.git
