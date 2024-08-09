@@ -37,7 +37,7 @@ done
 # needed for building amdgpu, so adding here. Otherwise we will only discovery by looking 
 # at make.log of amdgpu build.
 
-yum install dwarves 
+yum install dwarves  -y
 
 yum install createrepo -y
 yum install epel-release epel-next-release -y 
