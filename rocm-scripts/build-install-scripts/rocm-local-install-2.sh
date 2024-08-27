@@ -40,6 +40,7 @@ yum config-manager --set-enabled crb
 yum install epel-release epel-next-release -y
 
 amdgpu-install --uninstall -y
+amdgpu-install --uninstall -y --rocmrelease=all
 sudo yum remove rocm amdgpu -y
 
 for i in  rocm amdgpu; do
@@ -73,7 +74,7 @@ for i in rocm amdgpu ; do
             continue
         fi
     fi
-    yum install $i -y
+    yum install $i -y --nogpgcheck
 
     if [[ $i == "rocm" ]] ; then
         echo "Creating llvm soft links..."
