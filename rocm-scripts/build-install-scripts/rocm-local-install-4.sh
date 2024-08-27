@@ -49,7 +49,7 @@ amdgpu-install --uninstall -y --rocmrelease=all
 sudo yum remove rocm amdgpu -y
 
 for i in  rocm amdgpu; do
-    rm -rf /etc/yum.repos.d/$i*.repo
+    rm -rf /etc/yum.repos.d/*$i*.repo
 done
 
 for i in rocm amdgpu; do
