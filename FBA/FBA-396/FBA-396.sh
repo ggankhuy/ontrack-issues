@@ -9,7 +9,9 @@ OPT_STATIC=/opt/rocm-static
 pushd rccl
 rm -rf build
 ./install.sh -i --static  --prefix=$OPT_STATIC 2>&1 | tee ../log/install.rccl.static.log
-[[ $? -ne 0 ]] ; then echo "Warnin|error: install static failed..." ; exit 1; fi
+ret=$?
+echo ret: $ret
+[[ $ret -eq 0 ]] || exit 1
 popd
 
 pushd rccl-tests
