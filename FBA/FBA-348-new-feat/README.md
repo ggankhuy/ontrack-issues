@@ -7,6 +7,6 @@ to build:
 a.out    dispatch                    memory  stream           test_common.h  timer.h
 compute  hipPerfBufferCopySpeed.cpp  module  test_common.cpp  timer.cpp
 
-2) hipcc hipcc test_common.cpp timer.cpp -o hipPerfBufferCopySpeed.out
+2) hipcc test_common.cpp timer.cpp -o hipPerfBufferCopySpeed.out
 
 
